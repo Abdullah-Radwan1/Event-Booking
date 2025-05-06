@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/header";
+import Footer from "@/components/Footer";
+import { ThemeProvider } from "@/lib/theme-toggle";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -19,8 +22,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable}  antialiased`}>{children}</body>
+    <html suppressHydrationWarning lang="en">
+      <body className={`${inter.variable}  antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          {children}
+          <Footer />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
