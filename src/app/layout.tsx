@@ -4,12 +4,12 @@ import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/lib/theme-toggle";
-
-const inter = Inter({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+import SessionProvider from "@/lib/auth/SessionProvider";
+// const inter = Inter({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700"],
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,16 +23,19 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={`${inter.variable}  antialiased`}>
+      {/* className={`${inter.variable}  antialiased`} */}
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          {children}
-          <Footer />
+          <SessionProvider>
+            <Header />
+            {children}
+            <Footer />
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

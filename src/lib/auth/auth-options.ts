@@ -1,19 +1,15 @@
 // authOptions.ts
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { db } from "../../prisma/db";
-import bcrypt from "bcrypt";
-import { Role } from "@prisma/client";
+import { db } from "../../../prisma/db";
+import bcrypt from "bcryptjs"; // Changed from 'bcrypt' to 'bcryptjs'
+import { Role } from "@/generated/prisma";
 
 export const authOptions: AuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(db),
   providers: [
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID ?? "",
-      clientSecret: process.env.GITHUB_SECRET ?? "",
-    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -50,7 +46,6 @@ export const authOptions: AuthOptions = {
             throw new Error("Invalid credentials");
           }
 
-          // Manually return user with id (IMPORTANT 🔥)
           return {
             id: existingUser.id,
             name: existingUser.name,
@@ -72,7 +67,6 @@ export const authOptions: AuthOptions = {
           },
         });
 
-        // Manually return user with id (IMPORTANT 🔥)
         return {
           id: newUser.id,
           name: newUser.name,
@@ -83,7 +77,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    strategy: "jwt", // Default to JWT
+    strategy: "jwt",
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -95,7 +89,7 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id; // Add user ID to the session
+        session.user.id = token.id;
         session.user.role = token.role;
       }
       return session;

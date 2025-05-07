@@ -6,6 +6,16 @@ import Head from "next/head";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../css/bounce.css";
+import { signIn } from "next-auth/react";
+import { Role } from "@prisma/client";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,6 +23,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [role, setRule] = useState<Role>("USER");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -26,8 +37,16 @@ const SignUp = () => {
     setError("");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      window.location.href = "auth/signin";
+      const res = await signIn("credentials", {
+        name,
+        email,
+        password,
+        redirect: false,
+        role, // Include the selected role
+        isSignUp: "true", // Indicate sign-up
+        callbackUrl: "/", // Redirect to home page after sign-up
+      });
+      setError(res?.error || "");
     } catch {
       setError("Failed to create account. Please try again.");
     } finally {
@@ -95,7 +114,28 @@ const SignUp = () => {
                 />
               </div>
             </div>
-
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium  mb-1"
+              >
+                Role
+              </label>
+              <Select
+                required
+                onValueChange={(value) => setRule(value as Role)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a Role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="USER">User</SelectItem>
+                    <SelectItem value="ADMIN">Admin</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
             <div>
               <label
                 htmlFor="password"
@@ -194,6 +234,7 @@ const SignUp = () => {
             <Button className="w-full" variant="outline" type="button">
               GitHub
             </Button>
+            <p className="text-gray-500 text-center">coming soon</p>
           </div>
         </div>
       </div>

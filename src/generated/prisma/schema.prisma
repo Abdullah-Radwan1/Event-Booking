@@ -23,6 +23,7 @@ model Event {
   title       String
   description String
   date        DateTime
+  image       String?
   status      Status    @default(ACTIVE)
   bookings    Booking[] // Bookings related to this event
 }

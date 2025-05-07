@@ -2239,6 +2239,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     date: Date | null
+    image: string | null
     status: $Enums.Status | null
   }
 
@@ -2247,6 +2248,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     date: Date | null
+    image: string | null
     status: $Enums.Status | null
   }
 
@@ -2255,6 +2257,7 @@ export namespace Prisma {
     title: number
     description: number
     date: number
+    image: number
     status: number
     _all: number
   }
@@ -2265,6 +2268,7 @@ export namespace Prisma {
     title?: true
     description?: true
     date?: true
+    image?: true
     status?: true
   }
 
@@ -2273,6 +2277,7 @@ export namespace Prisma {
     title?: true
     description?: true
     date?: true
+    image?: true
     status?: true
   }
 
@@ -2281,6 +2286,7 @@ export namespace Prisma {
     title?: true
     description?: true
     date?: true
+    image?: true
     status?: true
     _all?: true
   }
@@ -2362,6 +2368,7 @@ export namespace Prisma {
     title: string
     description: string
     date: Date
+    image: string | null
     status: $Enums.Status
     _count: EventCountAggregateOutputType | null
     _min: EventMinAggregateOutputType | null
@@ -2387,6 +2394,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     date?: boolean
+    image?: boolean
     status?: boolean
     bookings?: boolean | Event$bookingsArgs<ExtArgs>
     _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
@@ -2397,6 +2405,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     date?: boolean
+    image?: boolean
     status?: boolean
   }, ExtArgs["result"]["event"]>
 
@@ -2405,6 +2414,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     date?: boolean
+    image?: boolean
     status?: boolean
   }, ExtArgs["result"]["event"]>
 
@@ -2413,10 +2423,11 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     date?: boolean
+    image?: boolean
     status?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "date" | "status", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "date" | "image" | "status", ExtArgs["result"]["event"]>
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | Event$bookingsArgs<ExtArgs>
     _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
@@ -2434,6 +2445,7 @@ export namespace Prisma {
       title: string
       description: string
       date: Date
+      image: string | null
       status: $Enums.Status
     }, ExtArgs["result"]["event"]>
     composites: {}
@@ -2863,6 +2875,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Event", 'String'>
     readonly description: FieldRef<"Event", 'String'>
     readonly date: FieldRef<"Event", 'DateTime'>
+    readonly image: FieldRef<"Event", 'String'>
     readonly status: FieldRef<"Event", 'Status'>
   }
     
@@ -4391,6 +4404,7 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     date: 'date',
+    image: 'image',
     status: 'status'
   };
 
@@ -4578,6 +4592,7 @@ export namespace Prisma {
     title?: StringFilter<"Event"> | string
     description?: StringFilter<"Event"> | string
     date?: DateTimeFilter<"Event"> | Date | string
+    image?: StringNullableFilter<"Event"> | string | null
     status?: EnumStatusFilter<"Event"> | $Enums.Status
     bookings?: BookingListRelationFilter
   }
@@ -4587,6 +4602,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     date?: SortOrder
+    image?: SortOrderInput | SortOrder
     status?: SortOrder
     bookings?: BookingOrderByRelationAggregateInput
   }
@@ -4599,6 +4615,7 @@ export namespace Prisma {
     title?: StringFilter<"Event"> | string
     description?: StringFilter<"Event"> | string
     date?: DateTimeFilter<"Event"> | Date | string
+    image?: StringNullableFilter<"Event"> | string | null
     status?: EnumStatusFilter<"Event"> | $Enums.Status
     bookings?: BookingListRelationFilter
   }, "id">
@@ -4608,6 +4625,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     date?: SortOrder
+    image?: SortOrderInput | SortOrder
     status?: SortOrder
     _count?: EventCountOrderByAggregateInput
     _max?: EventMaxOrderByAggregateInput
@@ -4622,6 +4640,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Event"> | string
     description?: StringWithAggregatesFilter<"Event"> | string
     date?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    image?: StringNullableWithAggregatesFilter<"Event"> | string | null
     status?: EnumStatusWithAggregatesFilter<"Event"> | $Enums.Status
   }
 
@@ -4756,6 +4775,7 @@ export namespace Prisma {
     title: string
     description: string
     date: Date | string
+    image?: string | null
     status?: $Enums.Status
     bookings?: BookingCreateNestedManyWithoutEventInput
   }
@@ -4765,6 +4785,7 @@ export namespace Prisma {
     title: string
     description: string
     date: Date | string
+    image?: string | null
     status?: $Enums.Status
     bookings?: BookingUncheckedCreateNestedManyWithoutEventInput
   }
@@ -4774,6 +4795,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     bookings?: BookingUpdateManyWithoutEventNestedInput
   }
@@ -4783,6 +4805,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     bookings?: BookingUncheckedUpdateManyWithoutEventNestedInput
   }
@@ -4792,6 +4815,7 @@ export namespace Prisma {
     title: string
     description: string
     date: Date | string
+    image?: string | null
     status?: $Enums.Status
   }
 
@@ -4800,6 +4824,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
   }
 
@@ -4808,6 +4833,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
   }
 
@@ -5013,6 +5039,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     date?: SortOrder
+    image?: SortOrder
     status?: SortOrder
   }
 
@@ -5021,6 +5048,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     date?: SortOrder
+    image?: SortOrder
     status?: SortOrder
   }
 
@@ -5029,6 +5057,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     date?: SortOrder
+    image?: SortOrder
     status?: SortOrder
   }
 
@@ -5466,6 +5495,7 @@ export namespace Prisma {
     title: string
     description: string
     date: Date | string
+    image?: string | null
     status?: $Enums.Status
   }
 
@@ -5474,6 +5504,7 @@ export namespace Prisma {
     title: string
     description: string
     date: Date | string
+    image?: string | null
     status?: $Enums.Status
   }
 
@@ -5521,6 +5552,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
   }
 
@@ -5529,6 +5561,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
   }
 

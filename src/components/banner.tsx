@@ -8,18 +8,18 @@ const Banner = () => {
     <div className="flex flex-col md:flex-row items-center justify-between gap-8 py-10 px-4 bg-accent rounded-xl shadow-sm animate-slideLeft">
       <div className="flex flex-col max-w-3xl space-y-6">
         <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-          Find your <span className="text-blue-500">people</span>, discover
-          <span className="text-blue-500"> interests</span>, and join inspiring
-          <span className="text-blue-500"> events</span>
+          Find your <span className="text-red-700">people</span>, discover
+          <span className="text-red-700"> interests</span>, and join inspiring
+          <span className="text-red-700"> events</span>
         </h1>
 
-        <p className="text-gray-500 text-lg">
+        <p className="text-accent-foreground text-lg">
           Connect with like-minded individuals and explore new opportunities in
           your community.
         </p>
 
-        <Link href="/auth/signup">
-          <Button className="bg-blue-500 text-white hover:bg-blue-600 p-6 text-lg  hover:shadow-lg">
+        <Link className="w-fit" href="/auth/signup">
+          <Button className="bg-red-700 text-white hover:bg-red-600 p-6 text-lg transition hover:shadow-lg">
             Sign Up Now
           </Button>
         </Link>

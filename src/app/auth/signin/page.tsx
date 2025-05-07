@@ -6,6 +6,7 @@ import Head from "next/head";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../css/bounce.css";
+import { signIn } from "next-auth/react";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -19,10 +20,14 @@ const SignIn = () => {
     setError("");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      window.location.href = "/";
-    } catch {
-      setError("Invalid email or password. Please try again.");
+      const res = await signIn("credentials", {
+        email,
+        password, // Hash password before sending
+        redirect: false, // Avoid page reload
+        callbackUrl: "/", // Redirect to home page after sign-in
+      });
+      console.log(res);
+      setError(res?.error || "");
     } finally {
       setLoading(false);
     }
@@ -111,6 +116,7 @@ const SignIn = () => {
             <Button variant="outline" className="w-full">
               GitHub
             </Button>
+            <p className="text-gray-500 text-center">coming soon</p>
           </div>
         </div>
       </div>

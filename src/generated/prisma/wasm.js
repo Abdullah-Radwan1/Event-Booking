@@ -134,6 +134,7 @@ exports.Prisma.EventScalarFieldEnum = {
   title: 'title',
   description: 'description',
   date: 'date',
+  image: 'image',
   status: 'status'
 };
 
