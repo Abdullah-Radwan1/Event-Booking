@@ -131,11 +131,15 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.EventScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  description: 'description',
+  title_ar: 'title_ar',
+  title_en: 'title_en',
+  description_ar: 'description_ar',
+  description_en: 'description_en',
   date: 'date',
   image: 'image',
-  status: 'status'
+  category: 'category',
+  price: 'price',
+  creatorId: 'creatorId'
 };
 
 exports.Prisma.BookingScalarFieldEnum = {
@@ -165,9 +169,10 @@ exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN'
 };
 
-exports.Status = exports.$Enums.Status = {
-  ACTIVE: 'ACTIVE',
-  CANCELLED: 'CANCELLED'
+exports.Category = exports.$Enums.Category = {
+  TECHNOLOGY: 'TECHNOLOGY',
+  BUSINESS: 'BUSINESS',
+  POLITICAL: 'POLITICAL'
 };
 
 exports.Prisma.ModelName = {

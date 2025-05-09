@@ -16,16 +16,22 @@ model User {
   phone    String?
   bookings Booking[] // Events this user is attending
   role     Role      @default(USER)
+  events   Event[] // Events this user has created  creatorId String
 }
 
 model Event {
-  id          String    @id @default(cuid())
-  title       String
-  description String
-  date        DateTime
-  image       String?
-  status      Status    @default(ACTIVE)
-  bookings    Booking[] // Bookings related to this event
+  id             String    @id @default(cuid())
+  title_ar       String?
+  title_en       String?
+  description_ar String?
+  description_en String?
+  date           DateTime
+  image          String?
+  category       Category  @default(TECHNOLOGY)
+  price          Int       @default(80)
+  bookings       Booking[] // Bookings related to this event
+  creator        User?     @relation(fields: [creatorId], references: [id])
+  creatorId      String?
 }
 
 model Booking {
@@ -40,12 +46,13 @@ model Booking {
   @@unique([eventId, userId]) // Prevent duplicate bookings
 }
 
-enum Status {
-  ACTIVE
-  CANCELLED
-}
-
 enum Role {
   USER
   ADMIN
+}
+
+enum Category {
+  TECHNOLOGY
+  BUSINESS
+  POLITICAL
 }

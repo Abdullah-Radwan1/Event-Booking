@@ -23,6 +23,7 @@ import {
 } from "./ui/alert-dialog";
 import SignOut from "@/lib/auth/SignoutButton";
 import Link from "next/link";
+import { EllipsisVertical } from "lucide-react";
 
 export default function UserMenu({ session }: { session: any }) {
   if (!session) {
@@ -37,14 +38,14 @@ export default function UserMenu({ session }: { session: any }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="relative">
-          Hi {session.user?.name}!
+          Hi {session.user?.name} <EllipsisVertical />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {session.user?.name}
+              {session.user?.name} ({session.user?.role.toLowerCase()})
             </p>
             <p className="text-xs leading-none text-muted-foreground">
               {session.user?.email}
@@ -52,10 +53,15 @@ export default function UserMenu({ session }: { session: any }) {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-
         <DropdownMenuItem asChild>
-          <Link href="/my-events" className="w-full">
-            My Events
+          <Link href="/profile" className="w-full">
+            Profile
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/events" className="w-full">
+            Events
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
