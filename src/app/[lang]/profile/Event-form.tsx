@@ -10,8 +10,10 @@ const EventForm = ({ lang }: { lang: string }) => {
 
   const isArabic = lang === "ar";
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title_ar, setTitle_ar] = useState("");
+  const [title_en, setTitle_en] = useState("");
+  const [description_ar, setDescription_ar] = useState("");
+  const [description_en, setDescription_en] = useState("");
   const [date, setDate] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -31,8 +33,10 @@ const EventForm = ({ lang }: { lang: string }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          title,
-          description,
+          title_ar,
+          title_en,
+          description_en,
+          description_ar,
           date,
           image,
         }),
@@ -42,9 +46,10 @@ const EventForm = ({ lang }: { lang: string }) => {
       if (!res.ok) {
         throw new Error(data.error);
       }
-
-      setTitle("");
-      setDescription("");
+      setTitle_ar("");
+      setTitle_en("");
+      setDescription_ar("");
+      setDescription_en("");
       setDate("");
       setImage(null);
       toast.success(
@@ -70,47 +75,72 @@ const EventForm = ({ lang }: { lang: string }) => {
         </div>
       )}
 
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div>
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium mb-1 text-accent-foreground/80"
-          >
-            {isArabic ? "عنوان الحدث" : "Event Title"}
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-foreground/50 bg-accent text-accent-foreground placeholder:text-accent-foreground/50"
-            placeholder={isArabic ? "أدخل عنوان الحدث" : "Enter event title"}
-            required
-          />
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Arabic Title */}
+          <div>
+            <label className="block text-sm font-medium mb-1 text-accent-foreground/80">
+              العنوان بالعربية
+            </label>
+            <input
+              type="text"
+              value={title_ar}
+              onChange={(e) => setTitle_ar(e.target.value)}
+              className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md bg-accent text-accent-foreground"
+              placeholder="أدخل عنوان الحدث بالعربية"
+              required
+            />
+          </div>
+
+          {/* English Title */}
+          <div>
+            <label className="block text-sm font-medium mb-1 text-accent-foreground/80">
+              Event Title (English)
+            </label>
+            <input
+              type="text"
+              value={title_en}
+              onChange={(e) => setTitle_en(e.target.value)}
+              className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md bg-accent text-accent-foreground"
+              placeholder="Enter event title in English"
+              required
+            />
+          </div>
         </div>
 
-        <div>
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium mb-1 text-accent-foreground/80"
-          >
-            {isArabic ? "الوصف" : "Description"}
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            rows={4}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-foreground/50 bg-accent text-accent-foreground placeholder:text-accent-foreground/50"
-            placeholder={
-              isArabic ? "أدخل وصف الحدث" : "Enter event description"
-            }
-            required
-          ></textarea>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Arabic Description */}
+          <div>
+            <label className="block text-sm font-medium mb-1 text-accent-foreground/80">
+              الوصف بالعربية
+            </label>
+            <textarea
+              rows={4}
+              value={description_ar}
+              onChange={(e) => setDescription_ar(e.target.value)}
+              className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md bg-accent text-accent-foreground"
+              placeholder="أدخل وصف الحدث بالعربية"
+              required
+            />
+          </div>
+
+          {/* English Description */}
+          <div>
+            <label className="block text-sm font-medium mb-1 text-accent-foreground/80">
+              Description (English)
+            </label>
+            <textarea
+              rows={4}
+              value={description_en}
+              onChange={(e) => setDescription_en(e.target.value)}
+              className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md bg-accent text-accent-foreground"
+              placeholder="Enter event description in English"
+              required
+            />
+          </div>
         </div>
 
+        {/* Date Picker */}
         <div>
           <label
             htmlFor="date"
@@ -124,11 +154,12 @@ const EventForm = ({ lang }: { lang: string }) => {
             name="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-foreground/50 bg-accent text-accent-foreground"
+            className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md bg-accent text-accent-foreground"
             required
           />
         </div>
 
+        {/* Image Upload */}
         <div>
           <label
             htmlFor="image"

@@ -11,10 +11,11 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { title, description, date, image } = body;
+    const { title_ar, description_ar, title_en, description_en, date, image } =
+      body;
 
     // Validate required fields
-    if (!title || !description || !date) {
+    if (!title_ar || !description_ar || title_en || description_en || !date) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -40,8 +41,10 @@ export async function POST(req: Request) {
     }
     const event = await db.event.create({
       data: {
-        title,
-        description,
+        title_ar,
+        title_en,
+        description_ar,
+        description_en,
         date: new Date(date), // Ensure proper date format
         image: image || null, // Make image optional
 

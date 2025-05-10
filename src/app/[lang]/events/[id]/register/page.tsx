@@ -2,7 +2,9 @@ import React from "react";
 import { db } from "../../../../../../prisma/db";
 import { notFound } from "next/navigation";
 import { Calendar, MapPin, Users } from "lucide-react";
-import { SubmitButton } from "./Submit-button";
+import Image from "next/image";
+
+import Register_form from "./Register_form";
 
 const RegisterPage = async ({
   params,
@@ -31,13 +33,6 @@ const RegisterPage = async ({
     }
   );
 
-  const registerForEvent = async (formData: FormData) => {
-    "use server";
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    console.log(`Registering ${name} (${email}) for event ${event.id}`);
-  };
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -54,51 +49,7 @@ const RegisterPage = async ({
               : "Complete the form below to secure your spot"}
           </p>
 
-          <form
-            action={registerForEvent}
-            className="space-y-6"
-            dir={isArabic ? "rtl" : "ltr"}
-          >
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                {isArabic ? "الاسم الكامل" : "Full Name"}
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder={isArabic ? "محمد أحمد" : "John Doe"}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                {isArabic ? "البريد الإلكتروني" : "Email Address"}
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder={isArabic ? "you@email.com" : "you@email.com"}
-              />
-            </div>
-
-            <div className="pt-4">
-              <SubmitButton className="w-full bg-red-700 hover:bg-indigo-700 text-white py-3 px-4 rounded-lg font-medium transition-colors">
-                {isArabic ? "أكمل التسجيل" : "Complete Registration"}
-              </SubmitButton>
-            </div>
-          </form>
+          <Register_form isArabic={lang} eventId={event.id} />
 
           <div className="bg-gray-50 rounded-xl p-6 border mt-10 border-gray-200">
             <h3 className="font-medium text-gray-900 mb-2">
@@ -114,6 +65,11 @@ const RegisterPage = async ({
                 : "for any questions about registration."}
             </p>
           </div>
+
+          <section className="flex items-center justify-center gap-x-6 mt-8 border shadow-xl  p-3  rounded-lg font-medium ">
+            <Image src="/meet.png" alt="logo" width={37} height={37} />
+            <h1 className="title">Meetup</h1>
+          </section>
         </div>
 
         {/* Event Details */}
@@ -124,11 +80,13 @@ const RegisterPage = async ({
             </h2>
 
             {event.image && (
-              <div className="relative w-full h-48 rounded-lg overflow-hidden mb-4">
-                <img
+              <div className="relative w-full  rounded-lg overflow-hidden mb-4">
+                <Image
                   src={event.image}
                   alt={event.title_ar || "Event Image"}
-                  className="object-cover w-full h-full"
+                  width={500}
+                  height={500}
+                  className="object-cover "
                 />
               </div>
             )}
@@ -148,7 +106,7 @@ const RegisterPage = async ({
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-gray-100 rounded-lg">
-                  <Calendar className="h-5 w-5 text-gray-700" />
+                  <Calendar className="h-5 w-5 " />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-500">
@@ -160,7 +118,7 @@ const RegisterPage = async ({
 
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-gray-100 rounded-lg">
-                  <MapPin className="h-5 w-5 text-gray-700" />
+                  <MapPin className="h-5 w-5 " />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-500">
@@ -174,7 +132,7 @@ const RegisterPage = async ({
 
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-gray-100 rounded-lg">
-                  <Users className="h-5 w-5 text-gray-700" />
+                  <Users className="h-5 w-5 " />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-500">

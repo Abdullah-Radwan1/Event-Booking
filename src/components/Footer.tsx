@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 
 const Footer = ({ lang }: { lang: string }) => {
   const isArabic = lang === "ar";
-  const dir = isArabic ? "rtl" : "ltr";
+
   const textAlign = isArabic ? "" : "text-left";
 
   // Translations
@@ -64,7 +64,7 @@ const Footer = ({ lang }: { lang: string }) => {
   };
 
   return (
-    <footer className="border-t py-8 mt-auto" dir={dir}>
+    <footer className="border-t py-8 mt-auto">
       <div className="sm:max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company section */}
@@ -78,11 +78,7 @@ const Footer = ({ lang }: { lang: string }) => {
             <p className="mt-3 text-sm text-muted-foreground">
               {translations.company[lang as keyof typeof translations.company]}
             </p>
-            <div
-              className={`mt-4 flex ${
-                isArabic ? "flex-row-reverse space-x-reverse" : ""
-              } space-x-4`}
-            >
+            <div className={`mt-4 flex  space-x-4`}>
               <a href="#" className="hover:text-primary transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
