@@ -5,7 +5,7 @@ import { Mail, Lock, LogIn } from "lucide-react";
 import Head from "next/head";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import "../../../css/bounce.css";
+import "../../../../css/bounce.css";
 import { signIn } from "next-auth/react";
 import { redirect } from "next/navigation";
 
@@ -98,7 +98,10 @@ const SignIn = () => {
 
           <p className="text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
-            <Link href="/auth/signup" className="font-medium hover:underline">
+            <Link
+              href="/auth/signup"
+              className="font-medium text-red-600 hover:underline"
+            >
               Sign up
             </Link>
           </p>

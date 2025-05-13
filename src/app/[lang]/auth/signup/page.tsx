@@ -1,11 +1,12 @@
 "use client";
+
 import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { Mail, Lock, User, CheckCircle, UserPlus } from "lucide-react";
 import Head from "next/head";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import "../../../css/bounce.css";
+import "../../../../css/bounce.css";
 import { signIn } from "next-auth/react";
 import { Role } from "@prisma/client";
 import {
@@ -16,7 +17,42 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useParams } from "next/navigation";
+
 const SignUp = () => {
+  const { lang } = useParams();
+  const ar = lang === "ar";
+
+  const t = {
+    title: ar ? "إنشاء حساب | الريّب" : "Sign Up | Alreeb",
+    heading: ar ? "أنشئ حسابك" : "Create your account",
+    subheading: ar
+      ? "انضم إلى مجتمعنا واكتشف فعاليات رائعة"
+      : "Join our community and discover amazing events",
+    nameLabel: ar ? "الاسم الكامل" : "Full Name",
+    emailLabel: ar ? "البريد الإلكتروني" : "Email",
+    roleLabel: ar ? "الدور" : "Role",
+    passwordLabel: ar ? "كلمة المرور" : "Password",
+    confirmPasswordLabel: ar ? "تأكيد كلمة المرور" : "Confirm Password",
+    tosText: ar ? "أوافق على" : "I agree to the",
+    tosLink: ar ? "شروط الخدمة" : "Terms of Service",
+    privacyLink: ar ? "سياسة الخصوصية" : "Privacy Policy",
+    signUpButton: ar ? "إنشاء حساب" : "Sign up",
+    creatingAccount: ar ? "جاري إنشاء الحساب..." : "Creating account...",
+    alreadyAccount: ar ? "هل لديك حساب؟" : "Already have an account?",
+    signIn: ar ? "تسجيل الدخول" : "Sign in",
+    orSignUpWith: ar ? "أو التسجيل عبر" : "Or sign up with",
+    githubComing: ar ? "قريبًا" : "coming soon",
+    roleUser: ar ? "مستخدم" : "User",
+    roleAdmin: ar ? "مشرف" : "Admin",
+    passwordMismatch: ar
+      ? "كلمتا المرور غير متطابقتين"
+      : "Passwords do not match",
+    signUpFailed: ar
+      ? "فشل في إنشاء الحساب. حاول مرة أخرى."
+      : "Failed to create account. Please try again.",
+  };
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +65,7 @@ const SignUp = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(t.passwordMismatch);
       return;
     }
 
@@ -42,13 +78,13 @@ const SignUp = () => {
         email,
         password,
         redirect: false,
-        role, // Include the selected role
-        isSignUp: "true", // Indicate sign-up
-        callbackUrl: "/", // Redirect to home page after sign-up
+        role,
+        isSignUp: "true",
+        callbackUrl: "/",
       });
       setError(res?.error || "");
     } catch {
-      setError("Failed to create account. Please try again.");
+      setError(t.signUpFailed);
     } finally {
       setLoading(false);
     }
@@ -57,17 +93,15 @@ const SignUp = () => {
   return (
     <>
       <Head>
-        <title>Sign Up | Alreeb</title>
-        <meta name="description" content="Create a new Alreeb account" />
+        <title>{t.title}</title>
+        <meta name="description" content={t.subheading} />
       </Head>
 
-      <div className=" flex animate-slideLeft justify-center  p-4">
-        <div className="w-full max-w-md  rounded-lg shadow-sm p-8">
+      <div className="flex animate-slideLeft justify-center p-4">
+        <div className="w-full max-w-md rounded-lg shadow-sm p-8">
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold ">Create your account</h2>
-            <p className="text-sm text-gray-400 mt-1">
-              Join our community and discover amazing events
-            </p>
+            <h2 className="text-2xl font-bold">{t.heading}</h2>
+            <p className="text-sm text-gray-400 mt-1">{t.subheading}</p>
           </div>
 
           {error && (
@@ -78,14 +112,14 @@ const SignUp = () => {
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium  mb-1">
-                Full Name
+              <label htmlFor="name" className="block text-sm font-medium mb-2">
+                {t.nameLabel}
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
                   id="name"
-                  placeholder="Full Name"
+                  placeholder={t.nameLabel}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="pl-9"
@@ -95,18 +129,15 @@ const SignUp = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium  mb-1"
-              >
-                Email
+              <label htmlFor="email" className="block text-sm font-medium mb-2">
+                {t.emailLabel}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
                   id="email"
                   type="email"
-                  placeholder="Email address"
+                  placeholder={t.emailLabel}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-9"
@@ -114,41 +145,41 @@ const SignUp = () => {
                 />
               </div>
             </div>
+
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium  mb-1"
-              >
-                Role
+              <label htmlFor="role" className="block text-sm font-medium mb-2">
+                {t.roleLabel}
               </label>
               <Select
+                dir={ar ? "rtl" : "ltr"}
                 required
                 onValueChange={(value) => setRule(value as Role)}
               >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a Role" />
+                <SelectTrigger className="w-full ">
+                  <SelectValue placeholder={t.roleLabel} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="USER">User</SelectItem>
-                    <SelectItem value="ADMIN">Admin</SelectItem>
+                    <SelectItem value="USER">{t.roleUser}</SelectItem>
+                    <SelectItem value="ADMIN">{t.roleAdmin}</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
+
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium  mb-1"
+                className="block text-sm font-medium mb-2"
               >
-                Password
+                {t.passwordLabel}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Password"
+                  placeholder={t.passwordLabel}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-9"
@@ -160,72 +191,73 @@ const SignUp = () => {
             <div>
               <label
                 htmlFor="confirm-password"
-                className="block text-sm font-medium  mb-1"
+                className="block text-sm font-medium mb-2"
               >
-                Confirm Password
+                {t.confirmPasswordLabel}
               </label>
               <div className="relative">
                 <CheckCircle className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
                   id="confirm-password"
                   type="password"
-                  placeholder="Confirm Password"
+                  placeholder={t.confirmPasswordLabel}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="pl-9"
+                  className="pl-9 my-2"
                   required
                 />
               </div>
             </div>
 
             <div className="flex items-center">
-              <input
+              <Input
                 id="terms"
                 name="terms"
                 type="checkbox"
                 required
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className={`h-4 w-4 ${ar ? "ml-2" : "mr-2"}`}
               />
-              <label htmlFor="terms" className="ml-2 block text-sm ">
-                I agree to the{" "}
+              <label htmlFor="terms" className="ml-2  block text-sm">
+                {t.tosText}{" "}
                 <Link
                   href="/terms"
                   className="text-blue-500 hover:text-blue-600"
                 >
-                  Terms of Service
+                  {t.tosLink}
                 </Link>{" "}
-                and{" "}
+                {ar ? "و" : "and"}{" "}
                 <Link
                   href="/privacy"
                   className="text-blue-500 hover:text-blue-600"
                 >
-                  Privacy Policy
+                  {t.privacyLink}
                 </Link>
               </label>
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
               <UserPlus className="mr-2 h-4 w-4" />
-              {loading ? "Creating account..." : "Sign up"}
+              {loading ? t.creatingAccount : t.signUpButton}
             </Button>
           </form>
 
           <div className="mt-4 text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
+            {t.alreadyAccount}{" "}
             <Link
               href="/auth/signin"
               className="text-blue-500 hover:text-blue-600"
             >
-              Sign in
+              {t.signIn}
             </Link>
           </div>
+
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center">
               <span className="bg-background px-2 text-sm text-muted-foreground">
-                Or sign up with
+                {t.orSignUpWith}
               </span>
             </div>
           </div>
@@ -234,7 +266,7 @@ const SignUp = () => {
             <Button className="w-full" variant="outline" type="button">
               GitHub
             </Button>
-            <p className="text-gray-500 text-center">coming soon</p>
+            <p className="text-gray-500 text-center">{t.githubComing}</p>
           </div>
         </div>
       </div>

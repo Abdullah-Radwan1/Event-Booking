@@ -1,16 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { signOut } from "next-auth/react";
+import { useParams } from "next/navigation";
 
 export default function SignOut() {
+  const lang = useParams().lang;
+  const ar = lang === "ar";
   return (
     <Button
-      className="m-auto flex  justify-center"
+      variant={"destructive"}
       onClick={async () => {
         await signOut();
       }}
     >
-      Sign Out
+      {ar ? "تسجيل الخروج" : "Sign out"}
     </Button>
   );
 }

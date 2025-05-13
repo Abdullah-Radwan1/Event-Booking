@@ -1,4 +1,3 @@
-// app/components/user-menu.tsx
 "use client";
 
 import { Button } from "./ui/button";
@@ -24,25 +23,39 @@ import {
 import SignOut from "@/lib/auth/SignoutButton";
 import Link from "next/link";
 import { EllipsisVertical } from "lucide-react";
+import { useParams } from "next/navigation";
 
 export default function UserMenu({ session }: { session: any }) {
+  const { lang } = useParams();
+  const isArabic = lang === "ar";
+
   if (!session) {
     return (
-      <Link href="/auth/signin">
-        <Button>Sign in</Button>
+      <Link href={`/${lang}/auth/signin`}>
+        <Button>{isArabic ? "تسجيل الدخول" : "Sign in"}</Button>
       </Link>
     );
   }
+
   const isAdmin = session?.user?.role === "ADMIN";
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="relative">
-          Hi {session.user?.name} <EllipsisVertical />
+        <Button
+          variant="outline"
+          className={`relative flex gap-1 items-center ${
+            isArabic ? "text-right" : "text-left"
+          }`}
+        >
+          {isArabic
+            ? `أهلاً ${session.user?.name}`
+            : `Hi ${session.user?.name}`}
+          <EllipsisVertical />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
+
+      <DropdownMenuContent forceMount dir={isArabic ? "rtl" : "ltr"}>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
@@ -53,43 +66,60 @@ export default function UserMenu({ session }: { session: any }) {
             </p>
           </div>
         </DropdownMenuLabel>
+
         <DropdownMenuSeparator />
+
         {isAdmin && (
           <DropdownMenuItem asChild>
-            <Link href="/admin" className="w-full font-semibold text-red-600">
-              Admin Pannel
+            <Link
+              href={`/${lang}/admin`}
+              className={`w-full font-semibold text-red-600 ${
+                isArabic ? "text-right" : "text-left"
+              }`}
+            >
+              {isArabic ? "لوحة الإدارة" : "Admin Panel"}
             </Link>
           </DropdownMenuItem>
         )}
+
         <DropdownMenuItem asChild>
-          <Link href="/profile" className="w-full ">
-            Profile
+          <Link href={`/${lang}/profile`}>
+            {isArabic ? "الملف الشخصي" : "Profile"}
           </Link>
         </DropdownMenuItem>
+
         <DropdownMenuSeparator />
+
         <DropdownMenuItem asChild>
-          <Link href="/events" className="w-full">
-            Events
+          <Link href={`/${lang}/events`}>
+            {isArabic ? "الفعاليات" : "Events"}
           </Link>
         </DropdownMenuItem>
+
         <DropdownMenuSeparator />
 
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
           <AlertDialog>
-            <AlertDialogTrigger className="w-full text-left">
-              Sign out
+            <AlertDialogTrigger className="w-full">
+              {isArabic ? "تسجيل الخروج" : "Sign out"}
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent dir={isArabic ? "rtl" : "ltr"}>
               <AlertDialogHeader>
                 <AlertDialogTitle>
-                  Are you sure you want to sign out?
+                  {isArabic
+                    ? "هل أنت متأكد أنك تريد تسجيل الخروج؟"
+                    : "Are you sure you want to sign out?"}
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                  You will need to sign in again to access your account.
+                  {isArabic
+                    ? "سوف تحتاج إلى تسجيل الدخول مرة أخرى للوصول إلى حسابك."
+                    : "You will need to sign in again to access your account."}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel>
+                  {isArabic ? "إلغاء" : "Cancel"}
+                </AlertDialogCancel>
                 <AlertDialogAction asChild>
                   <SignOut />
                 </AlertDialogAction>
