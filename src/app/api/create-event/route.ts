@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "../../../../prisma/db";
 import { authOptions } from "@/lib/auth/auth-options";
 import { getServerSession } from "next-auth";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function POST(req: Request) {
   try {
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
       body;
 
     // Validate required fields
-    if (!title_ar || !description_ar || title_en || description_en || !date) {
+    if (!title_ar || !description_ar || !title_en || !description_en || !date) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -51,6 +52,7 @@ export async function POST(req: Request) {
         creatorId: session.user.id as string, // Use session user ID
       },
     });
+    revalidateTag(`events`);
 
     return NextResponse.json(event);
   } catch (error) {

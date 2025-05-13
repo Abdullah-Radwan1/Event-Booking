@@ -1,4 +1,37 @@
-export const translations = {
+export const AdminTranslations = {
+  en: {
+    title: "Event Management",
+    addNew: "Add New Event",
+    noEvents: "No events found. Create your first event.",
+    headers: {
+      arabicTitle: "Arabic Title",
+      englishTitle: "English Title",
+      arabicDesc: "Arabic Description",
+      englishDesc: "English Description",
+      category: "Category",
+      price: "Price",
+      edit: "Edit",
+      delete: "Delete",
+    },
+  },
+  ar: {
+    title: "إدارة الفعاليات",
+    addNew: "إضافة فعالية جديدة",
+    noEvents: "لا توجد فعاليات. قم بإنشاء أول فعالية لك.",
+    headers: {
+      arabicTitle: "العنوان العربي",
+      englishTitle: "العنوان الإنجليزي",
+      arabicDesc: "الوصف العربي",
+      englishDesc: "الوصف الإنجليزي",
+      category: "الفئة",
+      price: "السعر",
+      edit: "تعديل",
+      delete: "حذف",
+    },
+  },
+};
+
+export const CardTranslations = {
   en: {
     registerNow: "Register Now",
     aboutEvent: "About this event",
@@ -36,5 +69,39 @@ export const translations = {
     relatedEvents: "قد يعجبك أيضًا",
     viewAllEvents: "عرض جميع الأحداث",
     learnMore: "تعرف أكثر",
+  },
+};
+export const EventTranslations = {
+  en: {
+    title: "Events",
+    searchPlaceholder: "Search events...",
+    filterPlaceholder: "Category",
+    noEvents: "No events found.",
+    price: "Price",
+    previous: "Previous",
+    next: "Next",
+    search: "Search",
+    categories: {
+      all: "All",
+      technology: "Technology",
+      business: "Business",
+      political: "Political",
+    },
+  },
+  ar: {
+    title: "الأحداث",
+    searchPlaceholder: "ابحث عن الأحداث...",
+    filterPlaceholder: "الفئة",
+    noEvents: "لا توجد أحداث.",
+    price: "السعر",
+    previous: "السابق",
+    next: "التالي",
+    search: "بحث",
+    categories: {
+      all: "الكل",
+      technology: "تكنولوجيا",
+      business: "أعمال",
+      political: "سياسة",
+    },
   },
 };

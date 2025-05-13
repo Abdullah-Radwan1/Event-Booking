@@ -32,12 +32,13 @@ const EventCard: React.FC<EventCardProps> = ({
   return (
     <div className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border">
       {/* Event Image */}
-      <div className="relative h-64 w-full">
+      <div className="relative   w-full">
         <Image
-          src={image || "/placeholder.jpg"}
-          fill
-          alt="event image"
-          className="object-cover"
+          src={image || "/tech.jpg"}
+          width={500}
+          height={500}
+          alt={image || "Event Image"}
+          className="object-cover max-h-72"
         />
       </div>
 

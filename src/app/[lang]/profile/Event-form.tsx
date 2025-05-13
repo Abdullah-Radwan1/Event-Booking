@@ -3,6 +3,10 @@ import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import CloudinaryUpload from "./cloudinary";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { getMaxDate, getTodayDate } from "@/lib/function";
 
 const EventForm = ({ lang }: { lang: string }) => {
   const { data: session } = useSession();
@@ -79,31 +83,33 @@ const EventForm = ({ lang }: { lang: string }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Arabic Title */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-accent-foreground/80">
+            <label className="block text-sm font-medium mb-2 text-accent-foreground/80">
               العنوان بالعربية
             </label>
-            <input
+            <Input
               type="text"
               value={title_ar}
               onChange={(e) => setTitle_ar(e.target.value)}
-              className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md bg-accent text-accent-foreground"
+              className="w-full "
               placeholder="أدخل عنوان الحدث بالعربية"
               required
+              maxLength={30}
             />
           </div>
 
           {/* English Title */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-accent-foreground/80">
+            <label className="block text-sm font-medium mb-2 text-accent-foreground/80">
               Event Title (English)
             </label>
-            <input
+            <Input
               type="text"
               value={title_en}
               onChange={(e) => setTitle_en(e.target.value)}
-              className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md bg-accent text-accent-foreground"
+              className="w-full "
               placeholder="Enter event title in English"
               required
+              maxLength={30}
             />
           </div>
         </div>
@@ -111,31 +117,33 @@ const EventForm = ({ lang }: { lang: string }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Arabic Description */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-accent-foreground/80">
+            <label className="block text-sm font-medium mb-2 text-accent-foreground/80">
               الوصف بالعربية
             </label>
-            <textarea
+            <Textarea
               rows={4}
               value={description_ar}
               onChange={(e) => setDescription_ar(e.target.value)}
-              className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md bg-accent text-accent-foreground"
+              className="w-full"
               placeholder="أدخل وصف الحدث بالعربية"
               required
+              maxLength={150}
             />
           </div>
 
           {/* English Description */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-accent-foreground/80">
+            <label className="block text-sm font-medium mb-2 text-accent-foreground/80">
               Description (English)
             </label>
-            <textarea
+            <Textarea
               rows={4}
               value={description_en}
               onChange={(e) => setDescription_en(e.target.value)}
-              className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md bg-accent text-accent-foreground"
+              className="w-full"
               placeholder="Enter event description in English"
               required
+              maxLength={150}
             />
           </div>
         </div>
@@ -144,18 +152,20 @@ const EventForm = ({ lang }: { lang: string }) => {
         <div>
           <label
             htmlFor="date"
-            className="block text-sm font-medium mb-1 text-accent-foreground/80"
+            className="block text-sm font-medium mb-2 text-accent-foreground/80"
           >
             {isArabic ? "تاريخ الحدث" : "Event Date"}
           </label>
-          <input
+          <Input
             type="datetime-local"
             id="date"
             name="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full px-4 py-2 border border-accent-foreground/20 rounded-md bg-accent text-accent-foreground"
+            className="w-full"
             required
+            min={getTodayDate()}
+            max={getMaxDate()}
           />
         </div>
 
@@ -163,18 +173,14 @@ const EventForm = ({ lang }: { lang: string }) => {
         <div>
           <label
             htmlFor="image"
-            className="block text-sm font-medium mb-1 text-accent-foreground/80"
+            className="block text-sm font-medium mb-2 text-accent-foreground/80"
           >
             {isArabic ? "صورة الحدث" : "Event Image"}
           </label>
           <CloudinaryUpload imageUrl={image || ""} setImageUrl={setImage} />
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full px-6 py-2 bg-accent-foreground text-accent rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent-foreground/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
+        <Button type="submit" disabled={isSubmitting} className="w-full ">
           {isSubmitting
             ? isArabic
               ? "جارٍ الإنشاء..."
@@ -182,7 +188,7 @@ const EventForm = ({ lang }: { lang: string }) => {
             : isArabic
             ? "إضافة الحدث"
             : "Add Event"}
-        </button>
+        </Button>
       </form>
     </div>
   );

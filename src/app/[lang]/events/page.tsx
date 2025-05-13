@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Event } from "@/generated/prisma";
-
+import { EventTranslations } from "@/lib/translation";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -26,26 +26,9 @@ export default function EventsPage() {
 
   const [hasMore, setHasMore] = useState(false);
   const [events, setEvents] = useState<Event[]>([]);
-  const { lang } = useParams() as { lang: string };
-  const ar = lang === "ar";
+  const { lang } = useParams() as { lang: "en" | "ar" };
+  const translations = EventTranslations[lang];
   const [loading, setLoading] = useState(true);
-
-  const translations = {
-    title: ar ? "الأحداث" : "Events",
-    searchPlaceholder: ar ? "ابحث عن الأحداث..." : "Search events...",
-    filterPlaceholder: ar ? "الفئة" : "Category",
-    noEvents: ar ? "لا توجد أحداث." : "No events found.",
-    price: ar ? "السعر" : "Price",
-    previous: ar ? "السابق" : "Previous",
-    next: ar ? "التالي" : "Next",
-    search: ar ? "بحث" : "Search",
-    categories: {
-      all: ar ? "الكل" : "All",
-      technology: ar ? "تكنولوجيا" : "Technology",
-      business: ar ? "أعمال" : "Business",
-      political: ar ? "سياسة" : "Political",
-    },
-  };
 
   const fetchEvents = async (overridePage = page) => {
     setLoading(true);
@@ -96,7 +79,7 @@ export default function EventsPage() {
           {translations.search}
         </Button>
         <Select
-          dir={ar ? "rtl" : "ltr"}
+          dir={lang === "ar" ? "rtl" : "ltr"}
           onValueChange={(value) => {
             setCategory(value);
             setPage(1);

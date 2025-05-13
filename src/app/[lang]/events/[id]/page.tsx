@@ -5,88 +5,79 @@ import { Calendar, Clock, MapPin, Users, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { translations } from "@/lib/translation";
 import EventCard from "@/components/event-card";
+import { eventPageTranslations } from "../translation";
 
 const EventPage = async ({
   params,
 }: {
   params: Promise<{ id: string; lang: string }>;
 }) => {
-  const ar = (await params).lang === "ar";
-
   const { id, lang } = await params;
-  const t = translations[lang as keyof typeof translations] || translations.en;
-  const event = await db.event.findUnique({
-    where: { id },
-  });
-  if (!event) {
-    notFound();
-  }
+  const t = eventPageTranslations[lang ? "ar" : "en"];
+  const ar = lang === "ar";
+  const event = await db.event.findUnique({ where: { id } });
+  if (!event) notFound();
+
   const related_events = await db.event.findMany({
     take: 3,
     where: { category: event.category, NOT: { id: event.id } },
   });
+
   const eventDate = new Date(event.date);
-  const formattedDate = eventDate.toLocaleDateString("en-US", {
+  const formattedDate = eventDate.toLocaleDateString(ar ? "ar-EG" : "en-US", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   });
-  const formattedTime = eventDate.toLocaleTimeString("en-US", {
+
+  const formattedTime = eventDate.toLocaleTimeString(ar ? "ar-EG" : "en-US", {
     hour: "2-digit",
     minute: "2-digit",
   });
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-      {/* Event Header */}
+      {/* Header */}
       <div className="mb-10">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <div>
-            <h1 className="text-4xl font-bold">
-              {ar ? event.title_ar : event.title_en}
-            </h1>
-          </div>
-          <div className="flex gap-3">
-            <Link
-              href={`/${lang}/events/${event.id}/register`}
-              className="text-white flex items-center gap-2 bg-red-600 hover:bg-red-700 p-3 rounded-lg"
-            >
-              {t.registerNow}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+          <h1 className="text-4xl font-bold">
+            {ar ? event.title_ar : event.title_en}
+          </h1>
+          <Link
+            href={`/${lang}/events/${event.id}/register`}
+            className="text-white flex items-center gap-2 bg-red-600 hover:bg-red-700 p-3 rounded-lg"
+          >
+            {t.registerNow}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </div>
 
-      {/* Event Image */}
+      {/* Image */}
       {event.image && (
         <div className="relative h-96 mb-10 rounded-2xl overflow-hidden shadow-lg">
           <Image
             src={event.image}
-            alt={"event image"}
+            alt="event image"
             fill
-            className="object-center"
+            className="object-cover"
             priority
           />
         </div>
       )}
 
-      {/* Event Details */}
+      {/* Content */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-        <div className="md:col-span-2">
-          <div className="border rounded-2xl p-8 mb-8 shadow-sm">
+        <div className="md:col-span-2 space-y-8">
+          <div className="border rounded-2xl p-8 shadow-sm">
             <h2 className="text-2xl font-semibold mb-6">{t.aboutEvent}</h2>
-            <div className="prose max-w-none">
-              <p className="whitespace-pre-line">
-                {ar ? event.description_ar : event.description_en}
-              </p>
-            </div>
+            <p className="whitespace-pre-line">
+              {ar ? event.description_ar : event.description_en}
+            </p>
           </div>
 
-          {/* Event Schedule */}
           <div className="border rounded-2xl p-8 shadow-sm">
             <h2 className="text-2xl font-semibold mb-6">{t.eventSchedule}</h2>
             <div className="space-y-6">
@@ -103,7 +94,6 @@ const EventPage = async ({
                   <p className="mt-2">{t.checkIn}</p>
                 </div>
               </div>
-              {/* Add more schedule items as needed */}
             </div>
           </div>
         </div>
@@ -114,31 +104,23 @@ const EventPage = async ({
             <h2 className="text-xl font-semibold mb-5">{t.eventDetails}</h2>
             <div className="space-y-5">
               <div className="flex items-start gap-4">
-                <div className="p-2 rounded-lg">
-                  <Calendar className="h-5 w-5" />
-                </div>
+                <Calendar className="h-5 w-5" />
                 <div>
                   <h3 className="font-medium text-red-400">{t.dateTime}</h3>
                   <p className="font-medium">{formattedDate}</p>
                   <p>{formattedTime}</p>
                 </div>
               </div>
-
               <div className="flex items-start gap-4">
-                <div className="p-2 rounded-lg">
-                  <MapPin className="h-5 w-5" />
-                </div>
+                <MapPin className="h-5 w-5" />
                 <div>
                   <h3 className="font-medium text-red-400">{t.location}</h3>
                   <p className="font-medium">{t.virtualEvent}</p>
                   <p>{t.linkProvided}</p>
                 </div>
               </div>
-
               <div className="flex items-start gap-4">
-                <div className="p-2 rounded-lg">
-                  <Users className="h-5 w-5" />
-                </div>
+                <Users className="h-5 w-5" />
                 <div>
                   <h3 className="font-medium text-red-400">{t.attendees}</h3>
                   <p className="font-medium">{t.registered}</p>
@@ -147,19 +129,17 @@ const EventPage = async ({
             </div>
           </div>
 
-          {/* Register Card */}
+          {/* Register CTA */}
           <div className="border rounded-2xl p-6">
             <h2 className="text-xl font-semibold mb-3">
               {t.registerCardTitle}
             </h2>
             <p className="mb-5">{t.registerCardText}</p>
-            <div className="space-y-6">
-              <Link href={`/${lang}/events/${event.id}/register`}>
-                <Button className="w-full text-white py-3 px-4 rounded-lg font-medium bg-red-600 hover:bg-red-700">
-                  {t.registerNow}
-                </Button>
-              </Link>
-            </div>
+            <Link href={`/${lang}/events/${event.id}/register`}>
+              <Button className="w-full text-white py-3 px-4 rounded-lg font-medium bg-red-600 hover:bg-red-700">
+                {t.registerNow}
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

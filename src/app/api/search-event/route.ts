@@ -1,5 +1,33 @@
 import { NextResponse } from "next/server";
+import { unstable_cache } from "next/cache";
 import { db } from "../../../../prisma/db";
+
+const getCachedEvents = unstable_cache(
+  async (skip: number, take: number, baseWhere: any) => {
+    const events = await db.event.findMany({
+      skip,
+      take,
+      where: baseWhere,
+      orderBy: {
+        date: "asc",
+      },
+    });
+
+    const nextPageEvents = await db.event.findMany({
+      skip: skip + take,
+      take: 1,
+      where: baseWhere,
+    });
+
+    const hasMore = nextPageEvents.length > 0;
+
+    return { events, hasMore };
+  },
+  ["events-cache"], // Cache key prefix
+  {
+    tags: ["events"], // Revalidation tags
+  }
+);
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -17,9 +45,7 @@ export async function GET(request: Request) {
           {
             description_ar: { contains: search, mode: "insensitive" as const },
           },
-          {
-            title_en: { contains: search, mode: "insensitive" as const },
-          },
+          { title_en: { contains: search, mode: "insensitive" as const } },
           {
             description_en: { contains: search, mode: "insensitive" as const },
           },
@@ -31,22 +57,7 @@ export async function GET(request: Request) {
     ],
   };
 
-  const events = await db.event.findMany({
-    skip,
-    take,
-    where: baseWhere,
-    orderBy: {
-      date: "asc", // or 'desc' depending on your preference
-    },
-  });
-
-  const nextPageEvents = await db.event.findMany({
-    skip: skip + take,
-    take: 1,
-    where: baseWhere,
-  });
-
-  const hasMore = nextPageEvents.length > 0;
+  const { events, hasMore } = await getCachedEvents(skip, take, baseWhere);
 
   return NextResponse.json({ events, hasMore });
 }
