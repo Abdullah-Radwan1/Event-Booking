@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { redirect } from "next/navigation";
 import React, { FormEvent } from "react";
 import { toast } from "sonner";
 
@@ -38,6 +39,7 @@ const Register_form = ({
           ? "تم تسجيلك بنجاح للحدث"
           : "You have successfully registered for the event"
       );
+      redirect(`success`);
     } catch (error) {
       toast.error(isArabic ? "حدث خطأ أثناء المعالجة" : "Something went wrong");
     }

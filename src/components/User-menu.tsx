@@ -33,6 +33,7 @@ export default function UserMenu({ session }: { session: any }) {
       </Link>
     );
   }
+  const isAdmin = session?.user?.role === "ADMIN";
 
   return (
     <DropdownMenu>
@@ -53,8 +54,15 @@ export default function UserMenu({ session }: { session: any }) {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
+        {isAdmin && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin" className="w-full font-semibold text-red-600">
+              Admin Pannel
+            </Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem asChild>
-          <Link href="/profile" className="w-full">
+          <Link href="/profile" className="w-full ">
             Profile
           </Link>
         </DropdownMenuItem>

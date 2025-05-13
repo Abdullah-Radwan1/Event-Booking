@@ -17,6 +17,7 @@ const EventCard: React.FC<EventCardProps> = ({
   date,
   image,
   lang,
+  price,
 }) => {
   const isArabic = lang === "ar";
 
@@ -46,16 +47,19 @@ const EventCard: React.FC<EventCardProps> = ({
 
         <p className="text-sm mb-4 line-clamp-2">{description}</p>
 
-        <div className="flex items-center text-sm mb-4 gap-2 text-muted-foreground">
-          <Calendar className="h-4 w-4" />
-          <span>
-            {new Date(date).toLocaleDateString(locale, {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </span>
-        </div>
+        <section className="flex items-center justify-between mb-4">
+          <div className="flex items-center text-sm  gap-2 text-muted-foreground">
+            <Calendar className="h-4 w-4" />
+            <span>
+              {new Date(date).toLocaleDateString(locale, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </span>
+          </div>
+          <p className="text-green-600">{price}$</p>
+        </section>
 
         {/* Action Button */}
         <Link href={`/${lang}/events/${id}`}>
