@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import EventCard from "@/components/event-card";
-import { eventPageTranslations } from "../translation";
+import { eventRegisterTranslations } from "../../../../../translations/event-translation";
 
 const EventPage = async ({
   params,
@@ -14,8 +14,8 @@ const EventPage = async ({
   params: Promise<{ id: string; lang: string }>;
 }) => {
   const { id, lang } = await params;
-  const t = eventPageTranslations[lang ? "ar" : "en"];
   const ar = lang === "ar";
+  const t = eventRegisterTranslations[ar ? "ar" : "en"];
   const event = await db.event.findUnique({ where: { id } });
   if (!event) notFound();
 
@@ -38,7 +38,7 @@ const EventPage = async ({
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    <div className="max-w-6xl mx-auto px-4 mt-8 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="mb-10">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -145,7 +145,7 @@ const EventPage = async ({
       </div>
 
       {/* Related Events */}
-      <div className="mt-16">
+      <div className="my-6">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-3xl font-bold">{t.relatedEvents}</h2>
           <Link

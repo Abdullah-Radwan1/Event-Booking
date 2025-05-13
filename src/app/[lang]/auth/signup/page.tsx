@@ -17,7 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
+import { toast } from "sonner";
 
 const SignUp = () => {
   const { lang } = useParams();
@@ -82,11 +83,15 @@ const SignUp = () => {
         isSignUp: "true",
         callbackUrl: "/",
       });
+      toast.success(
+        ar ? "تم إنشاء الحساب بنجاح" : "Account created successfully"
+      );
       setError(res?.error || "");
     } catch {
       setError(t.signUpFailed);
     } finally {
       setLoading(false);
+      redirect(ar ? "/ar" : "/");
     }
   };
 

@@ -1,5 +1,5 @@
 // lib/translation/eventPageTranslations.ts
-export const eventPageTranslations = {
+export const eventRegisterTranslations = {
   en: {
     registerNow: "Register Now",
     aboutEvent: "About the Event",

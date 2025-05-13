@@ -2,8 +2,10 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { db } from "../../../../prisma/db";
 import { getServerSession } from "next-auth";
-const session = await getServerSession();
+import { Event } from "@/generated/prisma";
+
 async function DeleteEvent(id: string) {
+  const session = await getServerSession(); // ✅ moved inside
   if (!session) {
     throw new Error("Not authenticated");
   }
@@ -11,6 +13,7 @@ async function DeleteEvent(id: string) {
   revalidateTag("events");
 }
 async function UpdateEvent(id: string, data: any, lang: string) {
+  const session = await getServerSession(); // ✅ moved inside
   if (!session) {
     throw new Error("Not authenticated");
   }

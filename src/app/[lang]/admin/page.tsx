@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { db } from "../../../../prisma/db";
-import { AdminTranslations } from "@/lib/translation";
+import { AdminTranslations } from "../../../../translations/admin";
 import Edit from "./Edit";
 import Delete from "./Delete";
 

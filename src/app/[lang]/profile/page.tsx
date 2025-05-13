@@ -20,7 +20,7 @@ const ProfilePage = async ({
     email?: string;
     role?: string;
   };
-
+  console.log(session);
   // Adjust profile page based on language
   const profilePageTitle = lang === "ar" ? "الملف الشخصي" : "User Profile";
   const roleLabel = lang === "ar" ? "الدور" : "Role";
@@ -40,7 +40,7 @@ const ProfilePage = async ({
             </h2>
             <p className="text-accent-foreground/80">{email}</p>
             <div className="mt-3 inline-block px-3 py-1 rounded-full text-sm font-medium bg-accent text-accent-foreground border border-accent-foreground/20">
-              {roleLabel}: {role || (lang === "ar" ? "مستخدم" : "user")}
+              {roleLabel}: {role}
             </div>
           </div>
         </div>

@@ -30,11 +30,11 @@ const EventCard: React.FC<EventCardProps> = ({
   const locale = lang === "ar" ? "ar-EG" : "en-US";
 
   return (
-    <div className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border">
+    <div className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border-2 ">
       {/* Event Image */}
       <div className="relative   w-full">
         <Image
-          src={image || "/tech.jpg"}
+          src={image || "tech1.jpg"}
           width={500}
           height={500}
           alt={image || "Event Image"}
@@ -59,7 +59,7 @@ const EventCard: React.FC<EventCardProps> = ({
               })}
             </span>
           </div>
-          <p className="text-green-600">{price}$</p>
+          <p className="text-red-600 font-bold">{price}$</p>
         </section>
 
         {/* Action Button */}

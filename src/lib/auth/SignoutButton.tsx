@@ -12,6 +12,7 @@ export default function SignOut() {
       onClick={async () => {
         await signOut();
       }}
+      className="text-white hover:bg-red-700 transition-all"
     >
       {ar ? "تسجيل الخروج" : "Sign out"}
     </Button>

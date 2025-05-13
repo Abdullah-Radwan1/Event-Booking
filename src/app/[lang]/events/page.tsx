@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Event } from "@/generated/prisma";
-import { EventTranslations } from "@/lib/translation";
+import { EventTranslations } from "../../../../translations/event";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
@@ -62,19 +62,21 @@ export default function EventsPage() {
       </h1>
 
       {/* Search + Filter */}
-      <div className="mb-6 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-[60%] lg:w-[40%] m-auto">
+      <div className="mb-6 flex flex-col sm:flex-row  justify-center gap-4 w-full sm:w-[60%] lg:w-[40%] mx-auto">
         <Input
           type="text"
           placeholder={translations.searchPlaceholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="w-full sm:w-[50%] "
+          className="sm:w-[50%] "
         />
         <Button
           variant={"outline"}
           onClick={handleSubmit}
-          className="w-full sm:w-[25%] "
+          className={`sm:w-[25%] flex ${
+            lang === "ar" ? "justify-end" : "justify-start"
+          }`}
         >
           {translations.search}
         </Button>
