@@ -20,7 +20,6 @@ const Events = async ({ lang }: { lang: string }) => {
     },
   });
   const bookedEventIds = bookings.map((booking) => booking.event.id);
-  console.log("Booked Event IDs:", bookedEventIds);
   return (
     <>
       <h1 className="text-5xl mt-4 font-bold bg-gradient-to-r from-blue-700 to-red-600 bg-clip-text text-transparent ">

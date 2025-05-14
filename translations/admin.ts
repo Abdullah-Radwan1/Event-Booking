@@ -3,6 +3,7 @@ export const AdminTranslations = {
     title: "Event Management",
     addNew: "Add New Event",
     noEvents: "No events found. Create your first event.",
+    add: "Add new Event",
     headers: {
       arabicTitle: "Arabic Title",
       englishTitle: "English Title",
@@ -18,6 +19,7 @@ export const AdminTranslations = {
     title: "إدارة الفعاليات",
     addNew: "إضافة فعالية جديدة",
     noEvents: "لا توجد فعاليات. قم بإنشاء أول فعالية لك.",
+    add: "إضافة حدث جديد",
     headers: {
       arabicTitle: "العنوان العربي",
       englishTitle: "العنوان الإنجليزي",

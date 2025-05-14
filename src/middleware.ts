@@ -88,5 +88,7 @@ export async function middleware(request: NextRequest) {
 
 // Matcher: apply this middleware to all routes except these exclusions
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:jpg|jpeg|png|svg|webp|gif|ico|json$)).*)",
+  ],
 };

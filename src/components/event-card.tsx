@@ -41,11 +41,11 @@ const EventCard: React.FC<EventCardProps> = ({
           </Badge>
         )}
         <Image
-          src={image || "tech1.jpg"}
+          src={image || "technical-event.jpg"}
           width={500}
           height={500}
           alt={image || "Event Image"}
-          className="object-cover max-h-72"
+          className="object-cover w-full h-64"
         />
       </div>
 

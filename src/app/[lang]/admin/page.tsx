@@ -11,6 +11,8 @@ import { db } from "../../../../prisma/db";
 import { AdminTranslations } from "../../../../translations/admin";
 import Edit from "./Edit";
 import Delete from "./Delete";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const AdminPage = async ({ params }: { params: { lang: "en" | "ar" } }) => {
   const { lang } = params;
@@ -23,7 +25,14 @@ const AdminPage = async ({ params }: { params: { lang: "en" | "ar" } }) => {
         lang === "ar" ? "text-right" : "text-left"
       }`}
     >
-      <h1 className="text-2xl font-bold mb-6">{translations.title}</h1>
+      <section className="flex justify-between">
+        <h1 className="text-2xl font-bold mb-6">{translations.title}</h1>
+        <Link href={`/admin/add`}>
+          <Button className="bg-red-500 text-white hover:bg-red-800 transition">
+            {translations.add}
+          </Button>
+        </Link>
+      </section>
 
       <div className="rounded-md border shadow-sm overflow-hidden">
         <Table>

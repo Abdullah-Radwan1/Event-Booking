@@ -3,6 +3,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { db } from "../../../../prisma/db";
 import { getServerSession } from "next-auth";
 import { Event } from "@/generated/prisma";
+import { toast } from "sonner";
 
 async function DeleteEvent(id: string) {
   const session = await getServerSession(); // ✅ moved inside
@@ -11,6 +12,7 @@ async function DeleteEvent(id: string) {
   }
   await db.event.delete({ where: { id } });
   revalidateTag("events");
+  toast.success("Event deleted successfully");
 }
 async function UpdateEvent(id: string, data: any, lang: string) {
   const session = await getServerSession(); // ✅ moved inside

@@ -12,4 +12,4 @@ const getMaxDate = () => {
   maxDate.setDate(maxDate.getDate() + 30);
   return formatDateTimeLocal(maxDate);
 };
-export { getTodayDate, getMaxDate };
+export { getTodayDate, getMaxDate, formatDateTimeLocal };

@@ -71,7 +71,7 @@ const EventPage = async ({
             src={event.image}
             alt="event image"
             fill
-            className="object-cover"
+            className="object-center"
             priority
           />
         </div>

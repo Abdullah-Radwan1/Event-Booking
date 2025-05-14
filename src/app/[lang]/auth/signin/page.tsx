@@ -27,7 +27,7 @@ const SignIn = () => {
         redirect: false, // Avoid page reload
         callbackUrl: "/", // Redirect to home page after sign-in
       });
-      console.log(res);
+   
       setError(res?.error || "");
     } finally {
       setLoading(false);
