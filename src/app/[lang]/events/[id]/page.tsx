@@ -7,12 +7,15 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import EventCard from "@/components/event-card";
 import { eventRegisterTranslations } from "../../../../../translations/event-translation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/auth-options";
 
 const EventPage = async ({
   params,
 }: {
   params: Promise<{ id: string; lang: string }>;
 }) => {
+  const session = await getServerSession(authOptions);
   const { id, lang } = await params;
   const ar = lang === "ar";
   const t = eventRegisterTranslations[ar ? "ar" : "en"];
@@ -23,6 +26,12 @@ const EventPage = async ({
     take: 3,
     where: { category: event.category, NOT: { id: event.id } },
   });
+  const bookings = await db.booking.findMany({
+    where: { userId: session?.user.id },
+    select: { eventId: true },
+  });
+
+  const bookedEventIds = bookings.map((b) => b.eventId);
 
   const eventDate = new Date(event.date);
   const formattedDate = eventDate.toLocaleDateString(ar ? "ar-EG" : "en-US", {
@@ -158,7 +167,12 @@ const EventPage = async ({
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {related_events.map((item) => (
-            <EventCard lang={lang} key={item.id} {...item} />
+            <EventCard
+              bookedEventIds={bookedEventIds}
+              lang={lang}
+              key={item.id}
+              {...item}
+            />
           ))}
         </div>
       </div>

@@ -27,6 +27,7 @@ export default function EventsPage() {
   const [hasMore, setHasMore] = useState(false);
   const [events, setEvents] = useState<Event[]>([]);
   const { lang } = useParams() as { lang: "en" | "ar" };
+  const [bookedEventIds, setBookedEventIds] = useState<string[]>([]);
   const translations = EventTranslations[lang];
   const [loading, setLoading] = useState(true);
 
@@ -38,6 +39,7 @@ export default function EventsPage() {
     const data = await response.json();
     setEvents(data.events);
     setHasMore(data.hasMore);
+    setBookedEventIds(data.bookedEventIds);
     setLoading(false);
   };
 
@@ -122,7 +124,12 @@ export default function EventsPage() {
       ) : events.length > 0 ? (
         <div className="grid grid-cols-1 justify-center items-center sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
           {events.map((event) => (
-            <EventCard lang={lang} key={event.id} {...event} />
+            <EventCard
+              bookedEventIds={bookedEventIds}
+              lang={lang}
+              key={event.id}
+              {...event}
+            />
           ))}
         </div>
       ) : (

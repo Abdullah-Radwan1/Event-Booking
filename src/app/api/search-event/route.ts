@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { unstable_cache } from "next/cache";
 import { db } from "../../../../prisma/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/auth-options";
 
 const getCachedEvents = unstable_cache(
   async (skip: number, take: number, baseWhere: any) => {
@@ -30,6 +32,14 @@ const getCachedEvents = unstable_cache(
 );
 
 export async function GET(request: Request) {
+  const session = await getServerSession(authOptions);
+  const bookings = await db.booking.findMany({
+    where: { userId: session?.user.id },
+    select: { eventId: true },
+  });
+
+  const bookedEventIds = bookings.map((b) => b.eventId);
+
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get("page") || "1");
   const search = (searchParams.get("search") || "").trim();
@@ -59,5 +69,5 @@ export async function GET(request: Request) {
 
   const { events, hasMore } = await getCachedEvents(skip, take, baseWhere);
 
-  return NextResponse.json({ events, hasMore });
+  return NextResponse.json({ events, hasMore, bookedEventIds });
 }

@@ -1,14 +1,16 @@
 import React from "react";
 import Link from "next/link";
 import { Calendar, ArrowRight, ArrowLeft } from "lucide-react";
-import { Event } from "@/generated/prisma";
 import Image from "next/image";
-
+import { Badge } from "./ui/badge";
+import { Event } from "@/generated/prisma";
 interface EventCardProps extends Event {
   lang: string;
+  bookedEventIds: string[]; // just the event IDs
 }
 
 const EventCard: React.FC<EventCardProps> = ({
+  bookedEventIds,
   id,
   title_ar,
   title_en,
@@ -20,7 +22,7 @@ const EventCard: React.FC<EventCardProps> = ({
   price,
 }) => {
   const isArabic = lang === "ar";
-
+  console.log(bookedEventIds);
   const title = isArabic ? title_ar : title_en;
   const description = isArabic ? description_ar : description_en;
 
@@ -33,6 +35,11 @@ const EventCard: React.FC<EventCardProps> = ({
     <div className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border-2 ">
       {/* Event Image */}
       <div className="relative   w-full">
+        {bookedEventIds?.includes(id) && (
+          <Badge variant="destructive" className="absolute top-2 right-2">
+            Booked
+          </Badge>
+        )}
         <Image
           src={image || "tech1.jpg"}
           width={500}
