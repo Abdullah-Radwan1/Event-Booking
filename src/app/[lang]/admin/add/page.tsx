@@ -7,7 +7,20 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { getMaxDate, getTodayDate } from "@/lib/function";
-import { redirect } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useRouter } from "next/navigation";
+
+enum Category {
+  TECHNOLOGY = "TECHNOLOGY",
+  BUSINESS = "BUSINESS",
+  POLITICAL = "POLITICAL",
+}
 
 const page = ({ lang }: { lang: string }) => {
   const { data: session } = useSession();
@@ -20,10 +33,11 @@ const page = ({ lang }: { lang: string }) => {
   const [description_ar, setDescription_ar] = useState("");
   const [description_en, setDescription_en] = useState("");
   const [date, setDate] = useState("");
+  const [category, setCategory] = useState<Category>(Category.TECHNOLOGY);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [image, setImage] = useState<string | null>(null);
-
+  const router = useRouter();
   if (!isAdmin) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,6 +58,7 @@ const page = ({ lang }: { lang: string }) => {
           description_ar,
           date,
           image,
+          category,
         }),
       });
 
@@ -57,14 +72,29 @@ const page = ({ lang }: { lang: string }) => {
       setDescription_en("");
       setDate("");
       setImage(null);
+      setCategory(category);
       toast.success(ar ? "تم إنشاء الحدث بنجاح" : "Event created successfully");
+      router.push(`/events`);
     } catch (err: any) {
       toast.error(err.message);
-      setError(ar ? "فشل إنشاء الحدث" : "Failed to create event");
     } finally {
       setIsSubmitting(false);
-      redirect(`/events`);
     }
+  };
+
+  const categoryTranslations = {
+    [Category.TECHNOLOGY]: {
+      en: "Technology",
+      ar: "تكنولوجيا",
+    },
+    [Category.BUSINESS]: {
+      en: "Business",
+      ar: "أعمال",
+    },
+    [Category.POLITICAL]: {
+      en: "Political",
+      ar: "سياسي",
+    },
   };
 
   return (
@@ -151,41 +181,62 @@ const page = ({ lang }: { lang: string }) => {
                 maxLength={150}
               />
             </div>
+            <div>
+              <label
+                htmlFor="date"
+                className="block text-sm font-medium mb-2 text-accent-foreground/80"
+              >
+                {ar ? "تاريخ الحدث" : "Event Date"}
+              </label>
+              <Input
+                type="datetime-local"
+                id="date"
+                name="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full"
+                required
+                min={getTodayDate()}
+                max={getMaxDate()}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-accent-foreground/80">
+                {ar ? "فئة الحدث" : "Event Category"}
+              </label>
+              <Select
+                value={category}
+                onValueChange={(value: Category) => setCategory(value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue
+                    placeholder={ar ? "اختر الفئة" : "Select category"}
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.values(Category).map((cat) => (
+                    <SelectItem key={cat} value={cat}>
+                      {ar
+                        ? categoryTranslations[cat].ar
+                        : categoryTranslations[cat].en}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2 text-accent-foreground/80">
+                {ar ? "صوره الحدث " : "Event Image"}
+              </label>
+              <CloudinaryUpload imageUrl={image || ""} setImageUrl={setImage} />
+            </div>
           </div>
 
-          {/* Date Picker */}
-          <div>
-            <label
-              htmlFor="date"
-              className="block text-sm font-medium mb-2 text-accent-foreground/80"
-            >
-              {ar ? "تاريخ الحدث" : "Event Date"}
-            </label>
-            <Input
-              type="datetime-local"
-              id="date"
-              name="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="w-full"
-              required
-              min={getTodayDate()}
-              max={getMaxDate()}
-            />
-          </div>
-
-          {/* Image Upload */}
-          <div>
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium mb-2 text-accent-foreground/80"
-            >
-              {ar ? "صورة الحدث" : "Event Image"}
-            </label>
-            <CloudinaryUpload imageUrl={image || ""} setImageUrl={setImage} />
-          </div>
-
-          <Button type="submit" disabled={isSubmitting} className="w-full ">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="mx-auto block "
+          >
             {isSubmitting
               ? ar
                 ? "جارٍ الإنشاء..."

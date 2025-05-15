@@ -18,181 +18,145 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+// Extracted translations for cleaner typing
+const translations = {
+  company: {
+    en: "Find your people, discover interests, and join inspiring events.",
+    ar: "ابحث عن أشخاص يشاركونك اهتماماتك، اكتشف اهتمامات جديدة، وانضم إلى أحداث ملهمة.",
+  },
+  quickLinks: {
+    en: "Quick Links",
+    ar: "روابط سريعة",
+  },
+  events: {
+    en: "Events",
+    ar: "الفعاليات",
+  },
+  communities: {
+    en: "Communities",
+    ar: "المجتمعات",
+  },
+  aboutUs: {
+    en: "About Us",
+    ar: "من نحن",
+  },
+  helpCenter: {
+    en: "Help Center",
+    ar: "مركز المساعدة",
+  },
+  stayUpdated: {
+    en: "Stay Updated",
+    ar: "ابق على اطلاع",
+  },
+  emailPlaceholder: {
+    en: "Your email",
+    ar: "بريدك الإلكتروني",
+  },
+  copyright: {
+    en: "All rights reserved",
+    ar: "جميع الحقوق محفوظة",
+  },
+};
+
+type TranslationKey = keyof typeof translations;
+
 const Footer = ({ lang }: { lang: string }) => {
   const isArabic = lang === "ar";
 
-  const textAlign = isArabic ? "" : "text-left";
+  const t = (key: TranslationKey): string =>
+    translations[key][lang as "en" | "ar"];
 
-  // Translations
-  const translations = {
-    company: {
-      en: "Find your people, discover interests, and join inspiring events.",
-      ar: "ابحث عن أشخاص يشاركونك اهتماماتك، اكتشف اهتمامات جديدة، وانضم إلى أحداث ملهمة.",
-    },
-    quickLinks: {
-      en: "Quick Links",
-      ar: "روابط سريعة",
-    },
-    events: {
-      en: "Events",
-      ar: "الفعاليات",
-    },
-    communities: {
-      en: "Communities",
-      ar: "المجتمعات",
-    },
-    aboutUs: {
-      en: "About Us",
-      ar: "من نحن",
-    },
-    helpCenter: {
-      en: "Help Center",
-      ar: "مركز المساعدة",
-    },
-    stayUpdated: {
-      en: "Stay Updated",
-      ar: "ابق على اطلاع",
-    },
-    emailPlaceholder: {
-      en: "Your email",
-      ar: "بريدك الإلكتروني",
-    },
-    copyright: {
-      en: "All rights reserved",
-      ar: "جميع الحقوق محفوظة",
-    },
-  };
+  const socialLinks = [Twitter, Facebook, Instagram, Github];
+
+  const quickLinks: {
+    href: string;
+    label: TranslationKey;
+    icon: React.ElementType;
+  }[] = [
+    { href: "events", label: "events", icon: Calendar },
+    { href: "communities", label: "communities", icon: Users },
+    { href: "about", label: "aboutUs", icon: Info },
+    { href: "help", label: "helpCenter", icon: HelpCircle },
+  ];
+
+  const contactInfo = [
+    { text: "contact@alreeb.com", icon: Mail },
+    { text: "+1 (555) 123-4567", icon: Phone },
+    { text: "123 Event Street, City", icon: MapPin },
+  ];
+
+  const FlexText = ({ icon: Icon, text }: { icon: any; text: string }) => (
+    <div className="flex items-center">
+      {isArabic ? (
+        <>
+          <span>{text}</span>
+          <Icon className="h-4 w-4 mx-2 text-red-500" />
+        </>
+      ) : (
+        <>
+          <Icon className="h-4 w-4 mr-2 text-red-500" />
+          <span>{text}</span>
+        </>
+      )}
+    </div>
+  );
 
   return (
     <footer className="border-t py-8 mt-auto">
       <div className="sm:max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Company section */}
-          <div className={textAlign}>
+          {/* Company */}
+          <div>
             <h3 className="text-lg font-semibold flex items-center">
               <Heart
                 className={`h-5 w-5 ${isArabic ? "mx-2" : "mr-2"} text-red-500`}
               />
               Alreeb
             </h3>
-            <p className="mt-3 text-sm text-muted-foreground">
-              {translations.company[lang as keyof typeof translations.company]}
-            </p>
-            <div className={`mt-4 flex  space-x-4`}>
-              <a href="#" className="hover:text-primary transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                <Github className="h-5 w-5" />
-              </a>
+            <p className="mt-3 text-sm text-muted-foreground">{t("company")}</p>
+            <div className="mt-4 flex space-x-4 ">
+              {socialLinks.map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="hover:text-primary transition-colors"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className={textAlign}>
-            <h3 className="text-lg font-semibold mb-3">
-              {
-                translations.quickLinks[
-                  lang as keyof typeof translations.quickLinks
-                ]
-              }
-            </h3>
+          <div className={`${isArabic ? "text-right" : "text-left"}`}>
+            <h3 className="text-lg font-semibold mb-3">{t("quickLinks")}</h3>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  href={`/${lang}/events`}
-                  className="hover:text-primary transition-colors flex items-center"
-                >
-                  <Calendar
-                    className={`h-4 w-4 ${
-                      isArabic ? "mx-2" : "mr-2"
-                    } text-red-500`}
-                  />
-                  {
-                    translations.events[
-                      lang as keyof typeof translations.events
-                    ]
-                  }
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/${lang}/communities`}
-                  className="hover:text-primary transition-colors flex items-center"
-                >
-                  <Users
-                    className={`h-4 w-4 ${
-                      isArabic ? "mx-2" : "mr-2"
-                    } text-red-500`}
-                  />
-                  {
-                    translations.communities[
-                      lang as keyof typeof translations.communities
-                    ]
-                  }
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/${lang}/about`}
-                  className="hover:text-primary transition-colors flex items-center"
-                >
-                  <Info
-                    className={`h-4 w-4 ${
-                      isArabic ? "mx-2" : "mr-2"
-                    } text-red-500`}
-                  />
-                  {
-                    translations.aboutUs[
-                      lang as keyof typeof translations.aboutUs
-                    ]
-                  }
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/${lang}/help`}
-                  className="hover:text-primary transition-colors flex items-center"
-                >
-                  <HelpCircle
-                    className={`h-4 w-4 ${
-                      isArabic ? "mx-2" : "mr-2"
-                    } text-red-500`}
-                  />
-                  {
-                    translations.helpCenter[
-                      lang as keyof typeof translations.helpCenter
-                    ]
-                  }
-                </Link>
-              </li>
+              {quickLinks.map(({ href, label, icon: Icon }) => (
+                <li key={href}>
+                  <Link
+                    href={`/${lang}/${href}`}
+                    className="hover:text-primary transition-colors flex items-center"
+                  >
+                    <Icon
+                      className={`h-4 w-4 ${
+                        isArabic ? "mx-2" : "mr-2"
+                      } text-red-500`}
+                    />
+                    {t(label)}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact & Newsletter */}
-          <div className={textAlign}>
-            <h3 className="text-lg font-semibold mb-3">
-              {
-                translations.stayUpdated[
-                  lang as keyof typeof translations.stayUpdated
-                ]
-              }
-            </h3>
+          {/* Contact + Newsletter */}
+          <div className={`${isArabic ? "text-right" : "text-left"}`}>
+            <h3 className="text-lg font-semibold mb-3">{t("stayUpdated")}</h3>
             <div className="flex items-center mb-4">
               <div className="relative flex-grow">
                 <Input
                   type="email"
-                  placeholder={
-                    translations.emailPlaceholder[
-                      lang as keyof typeof translations.emailPlaceholder
-                    ]
-                  }
+                  placeholder={t("emailPlaceholder")}
                   className={isArabic ? "pl-10" : "pr-10"}
                 />
                 <Button
@@ -205,65 +169,18 @@ const Footer = ({ lang }: { lang: string }) => {
                 </Button>
               </div>
             </div>
-            <div
-              className={`space-y-2 text-sm text-muted-foreground ${
-                isArabic ? "" : ""
-              }`}
-            >
-              <div className="flex items-center">
-                {isArabic ? (
-                  <>
-                    <span>contact@alreeb.com</span>
-                    <Mail className="h-4 w-4 mx-2 text-red-500" />
-                  </>
-                ) : (
-                  <>
-                    <Mail className="h-4 w-4 mx-2 text-red-500" />
-                    <span>contact@alreeb.com</span>
-                  </>
-                )}
-              </div>
-              <div className="flex items-center">
-                {isArabic ? (
-                  <>
-                    <span>+1 (555) 123-4567</span>
-                    <Phone className="h-4 w-4 mx-2 text-red-500" />
-                  </>
-                ) : (
-                  <>
-                    <Phone className="h-4 w-4 mr-2 text-red-500" />
-                    <span>+1 (555) 123-4567</span>
-                  </>
-                )}
-              </div>
-              <div className="flex items-center">
-                {isArabic ? (
-                  <>
-                    <span>123 Event Street, City</span>
-                    <MapPin className="h-4 w-4 mx-2 text-red-500" />
-                  </>
-                ) : (
-                  <>
-                    <MapPin className="h-4 w-4 mr-2 text-red-500" />
-                    <span>123 Event Street, City</span>
-                  </>
-                )}
-              </div>
+            <div className="space-y-2 text-sm text-muted-foreground">
+              {contactInfo.map(({ text, icon }, i) => (
+                <FlexText key={i} icon={icon} text={text} />
+              ))}
             </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div
-          className={`mt-8 pt-4 border-t text-center text-sm text-muted-foreground `}
-        >
+        <div className="mt-8 pt-4 border-t text-center text-sm text-muted-foreground">
           <p>
-            &copy; {new Date().getFullYear()} Abdullah Radwan.{" "}
-            {
-              translations.copyright[
-                lang as keyof typeof translations.copyright
-              ]
-            }
+            &copy; {new Date().getFullYear()} Abdullah Radwan. {t("copyright")}
           </p>
         </div>
       </div>

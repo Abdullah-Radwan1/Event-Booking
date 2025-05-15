@@ -15,12 +15,16 @@ import { Trash2 } from "lucide-react";
 
 import { DeleteEvent } from "./actions";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const Delete = ({ id, lang }: { id: string; lang: string }) => {
   // Inside your AdminPage component
 
   const ar = lang === "ar";
-
+  const handleDelete = async function () {
+    DeleteEvent(id);
+    toast.error(ar ? "تم حذف الفعالية بنجاح" : "Event deleted successfully");
+  };
   const DeleteTranslations = {
     title: ar ? "إدارة الفعاليات" : "Event Management",
     addNew: ar ? "إضافة فعالية جديدة" : "Add New Event",
@@ -66,12 +70,7 @@ const Delete = ({ id, lang }: { id: string; lang: string }) => {
           <AlertDialogCancel>
             {DeleteTranslations.delete.cancel}
           </AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => {
-              DeleteEvent(id);
-            }}
-            className="bg-destructive"
-          >
+          <AlertDialogAction onClick={handleDelete} className="bg-destructive">
             {DeleteTranslations.delete.confirm}
           </AlertDialogAction>
         </AlertDialogFooter>

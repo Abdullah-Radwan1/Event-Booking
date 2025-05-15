@@ -6,7 +6,7 @@ import { Badge } from "./ui/badge";
 import { Event } from "@/generated/prisma";
 interface EventCardProps extends Event {
   lang: string;
-  bookedEventIds: string[]; // just the event IDs
+  bookedEventIds: string[] | null; // just the event IDs
 }
 
 const EventCard: React.FC<EventCardProps> = ({
@@ -22,7 +22,7 @@ const EventCard: React.FC<EventCardProps> = ({
   price,
 }) => {
   const isArabic = lang === "ar";
-  console.log(bookedEventIds);
+
   const title = isArabic ? title_ar : title_en;
   const description = isArabic ? description_ar : description_en;
 

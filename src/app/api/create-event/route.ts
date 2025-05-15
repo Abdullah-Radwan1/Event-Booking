@@ -12,11 +12,25 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { title_ar, description_ar, title_en, description_en, date, image } =
-      body;
+    const {
+      title_ar,
+      description_ar,
+      title_en,
+      description_en,
+      date,
+      image,
+      category,
+    } = body;
 
     // Validate required fields
-    if (!title_ar || !description_ar || !title_en || !description_en || !date) {
+    if (
+      !title_ar ||
+      !description_ar ||
+      !title_en ||
+      !description_en ||
+      !date ||
+      !category
+    ) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -48,8 +62,7 @@ export async function POST(req: Request) {
         description_en,
         date: new Date(date), // Ensure proper date format
         image: image || null, // Make image optional
-
-        creatorId: session.user.id as string, // Use session user ID
+        category, // Use session user ID
       },
     });
     revalidateTag(`events`);

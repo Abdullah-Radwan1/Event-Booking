@@ -1,11 +1,11 @@
 import { authOptions } from "@/lib/auth/auth-options";
 import { getServerSession } from "next-auth";
 import { db } from "../../../../prisma/db";
-import Image from "next/image";
-import { getTodayDate, getMaxDate, formatDateTimeLocal } from "@/lib/function";
-import React from "react";
 
-const My_events = async () => {
+import React from "react";
+import EventCard from "@/components/event-card";
+
+const My_events = async ({ lang }: { lang: string }) => {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -31,46 +31,21 @@ const My_events = async () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {my_events.map(({ event }) => (
-        <div
-          key={event.id}
-          className="bg-accent rounded-xl overflow-hidden shadow border border-border"
-        >
-          {event.image && (
-            <Image
-              src={`${event.image}`}
-              alt={event.title_en || "Event Image"}
-              width={500}
-              height={300}
-              className="w-full h-48 object-cover"
-            />
-          )}
-          <div className="p-4 space-y-2">
-            <h3 className="text-lg font-semibold text-accent-foreground">
-              {event.title_en}
-            </h3>
-            <p className="text-sm text-muted-foreground line-clamp-2">
-              {event.description_en}
-            </p>
-
-            <div className="text-sm text-muted-foreground">
-              <span className="font-medium">Date:</span>{" "}
-              {formatDateTimeLocal(new Date(event.date))}
-            </div>
-
-            <div className="flex items-center justify-between pt-2">
-              <span className="text-sm px-2 py-1 bg-muted text-muted-foreground rounded">
-                {event.category}
-              </span>
-              <span className="text-sm font-medium text-primary">
-                ${event.price}
-              </span>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
+    <section>
+      <h1 className="text-4xl font-semibold text-center bg-gradient-to-r from-blue-700 to-red-500 bg-clip-text text-transparent ">
+        My Events
+      </h1>
+      <div className="mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2  gap-6">
+        {my_events.map(({ event }) => (
+          <EventCard
+            lang={lang}
+            bookedEventIds={null}
+            key={event.id}
+            {...event}
+          />
+        ))}
+      </div>
+    </section>
   );
 };
 

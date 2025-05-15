@@ -12,7 +12,7 @@ export default async function Header() {
   const session = await getServerSession(authOptions);
 
   return (
-    <nav className="flex items-center justify-around flex-wrap gap-y-3 py-4 px-6">
+    <nav className="flex border-b shadow-sm items-center justify-around flex-wrap gap-y-3 py-2 px-6">
       <Link href="/">
         <section className="flex items-center justify-between gap-2">
           <Image src="/meet.png" alt="logo" width={37} height={37} />

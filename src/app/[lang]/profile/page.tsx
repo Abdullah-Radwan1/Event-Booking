@@ -2,9 +2,10 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 import My_events from "./My-events";
+import { authOptions } from "@/lib/auth/auth-options";
 
 const page = async ({ params }: { params: Promise<{ lang: string }> }) => {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   const { lang } = await params;
 
   if (!session || !session.user) {
@@ -16,13 +17,14 @@ const page = async ({ params }: { params: Promise<{ lang: string }> }) => {
     email?: string;
     role?: string;
   };
+  console.log(session);
 
   const profilePageTitle = lang === "ar" ? "الملف الشخصي" : "User Profile";
   const roleLabel = lang === "ar" ? "الدور" : "Role";
   const userName = name || (lang === "ar" ? "مستخدم" : "User");
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl py-6">
+    <div className="min-h-[60vh] mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl py-6">
       <section aria-labelledby="profile-heading">
         <h1 id="profile-heading" className="sr-only">
           {profilePageTitle}
@@ -49,9 +51,8 @@ const page = async ({ params }: { params: Promise<{ lang: string }> }) => {
         </div>
       </section>
       {/* my events  */}
-      <My_events />
+      <My_events lang={lang} />
       {/* Event form section */}
-    
     </div>
   );
 };

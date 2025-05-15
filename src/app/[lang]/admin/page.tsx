@@ -72,12 +72,10 @@ const AdminPage = async ({ params }: { params: { lang: "en" | "ar" } }) => {
                   {event.title_en}
                 </TableCell>
                 <TableCell className="w-4">
-                  {event.description_ar?.split(" ").slice(0, 4).join(" ") +
-                    "..."}
+                  {event.description_ar?.slice(0, 30) + "..."}
                 </TableCell>
                 <TableCell className="w-4">
-                  {event.description_en?.split(" ").slice(0, 4).join(" ") +
-                    "..."}
+                  {event.description_en?.slice(0, 30) + "..."}
                 </TableCell>
                 <TableCell>{event.category}</TableCell>
                 <TableCell>{event.price}</TableCell>
