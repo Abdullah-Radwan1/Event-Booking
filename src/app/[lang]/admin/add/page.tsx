@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 enum Category {
   TECHNOLOGY = "TECHNOLOGY",
@@ -22,10 +22,10 @@ enum Category {
   POLITICAL = "POLITICAL",
 }
 
-const page = ({ lang }: { lang: string }) => {
+const page = () => {
   const { data: session } = useSession();
   const isAdmin = session?.user?.role === "ADMIN";
-
+  const { lang } = useParams();
   const ar = lang === "ar";
 
   const [title_ar, setTitle_ar] = useState("");
