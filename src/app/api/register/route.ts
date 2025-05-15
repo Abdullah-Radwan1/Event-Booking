@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { db } from "../../../../prisma/db";
 import { authOptions } from "@/lib/auth/auth-options";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -26,7 +27,10 @@ export async function POST(request: Request) {
     },
   });
   if (userAlreadyRegistered) {
-    return new Response("User already registered", { status: 400 });
+    return NextResponse.json(
+      { message: "User already registered" },
+      { status: 400 }
+    );
   }
   const createdBooking = await db.booking.create({
     data: {

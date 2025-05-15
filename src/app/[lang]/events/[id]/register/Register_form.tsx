@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { FormEvent } from "react";
 import { toast } from "sonner";
 
@@ -12,11 +12,11 @@ const Register_form = ({
   isArabic: string;
   eventId: string;
 }) => {
+  const router = useRouter();
   const registerForEvent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
 
@@ -28,20 +28,20 @@ const Register_form = ({
           "Content-Type": "application/json",
         },
       });
-
+      const data = await res.json();
       if (!res.ok) {
-        toast.error(isArabic ? "حدث خطأ أثناء التسجيل" : "Registration failed");
+        toast.error(data.message);
         return;
       }
-
+      // router.push("/events");
       toast.success(
         isArabic
           ? "تم تسجيلك بنجاح للحدث"
           : "You have successfully registered for the event"
       );
-      redirect(`success`);
-    } catch (error) {
-      toast.error(isArabic ? "حدث خطأ أثناء المعالجة" : "Something went wrong");
+      router.push("register/success");
+    } catch (error: any) {
+      toast.error(error?.message);
     }
   };
 
