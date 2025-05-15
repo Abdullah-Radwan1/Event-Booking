@@ -35,11 +35,11 @@ const My_events = async ({ lang }: { lang: string }) => {
   }
 
   return (
-    <section className="shadow-2xl rounded-xl">
+    <section>
       <h1 className="text-4xl font-semibold p-1 text-center bg-gradient-to-r from-blue-700 to-red-500 bg-clip-text text-transparent">
         {ar ? "فعالياتي" : "My Events"}
       </h1>
-      <div className="mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className=" mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         {my_events.map(({ event }) => (
           <EventCard
             lang={lang}
