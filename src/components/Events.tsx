@@ -22,7 +22,7 @@ const Events = async ({ lang }: { lang: string }) => {
   const bookedEventIds = bookings.map((booking) => booking.event.id);
   return (
     <>
-      <h1 className="text-5xl mt-4 font-bold bg-gradient-to-r from-blue-700 to-red-600 bg-clip-text text-transparent ">
+      <h1 className="text-5xl mt-4 font-bold p-1 bg-gradient-to-r from-blue-700 to-red-600 bg-clip-text text-transparent ">
         {ar ? "اخر الاحداث" : "Hot Events"}
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl   w-full  p-6">
