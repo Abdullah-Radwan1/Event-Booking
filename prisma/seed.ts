@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { Category } from "./../src/generated/prisma";
+import { Category } from "../node_modules/prisma/prisma-client";
 
 async function main() {
   const events = [

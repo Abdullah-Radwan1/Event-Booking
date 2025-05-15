@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Calendar, ArrowRight, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "./ui/badge";
-import { Event } from "@/generated/prisma";
+import { Event } from "@prisma/client";
 interface EventCardProps extends Event {
   lang: string;
   bookedEventIds: string[] | null; // just the event IDs

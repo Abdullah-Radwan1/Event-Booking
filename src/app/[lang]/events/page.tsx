@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Event } from "@/generated/prisma";
+import { Event } from "@prisma/client";
 import { EventTranslations } from "../../../../translations/event";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";

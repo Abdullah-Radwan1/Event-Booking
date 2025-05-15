@@ -12,13 +12,13 @@ import { Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Event } from "@/generated/prisma";
+import { Event } from "@prisma/client";
 import { UpdateEvent } from "./actions";
 import { toast } from "sonner";
 
 type EditProps = {
   event: Event;
-  lang: "en" | "ar";
+  lang: string;
 };
 
 const EditTranslations = {
@@ -42,8 +42,9 @@ const EditTranslations = {
   },
 };
 
-const Edit = ({ event, lang = "en" }: EditProps) => {
-  const t = EditTranslations[lang] ?? EditTranslations.en;
+const Edit = ({ event, lang }: EditProps) => {
+  const ar = lang === "ar";
+  const t = EditTranslations[ar ? "ar" : "en"] ?? EditTranslations.en;
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title_ar: event.title_ar ?? "",

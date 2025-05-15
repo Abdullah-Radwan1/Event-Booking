@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "../../../../prisma/db";
 import { authOptions } from "@/lib/auth/auth-options";
 import { getServerSession } from "next-auth";
-import { revalidatePath, revalidateTag } from "next/cache";
+import {  revalidateTag } from "next/cache";
 
 export async function POST(req: Request) {
   try {
