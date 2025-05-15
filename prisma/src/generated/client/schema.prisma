@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(uuid())
+  email    String    @unique
+  name     String?
+  password String
+  phone    String?
+  bookings Booking[] // Events this user is attending
+  role     Role      @default(USER)
+  events   Event[] // Events this user has created  creatorId String
+}
+
+model Event {
+  id             String    @id @default(cuid())
+  title_ar       String?
+  title_en       String?
+  description_ar String?
+  description_en String?
+  date           DateTime
+  image          String?
+  category       Category  @default(TECHNOLOGY)
+  price          Int       @default(80)
+  bookings       Booking[] // Bookings related to this event
+  creator        User?     @relation(fields: [creatorId], references: [id])
+  creatorId      String?
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([eventId, userId]) // Prevent duplicate bookings
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Category {
+  TECHNOLOGY
+  BUSINESS
+  POLITICAL
+}
