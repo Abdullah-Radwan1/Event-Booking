@@ -48,9 +48,9 @@ export async function POST(req: Request) {
     const userEventsCount = await db.event.count({
       where: { creatorId: session.user.id },
     });
-    if (userEventsCount >= 3) {
+    if (userEventsCount >= 1) {
       return NextResponse.json(
-        { error: "You have reached the maximum number of events" },
+        { message: "You have reached the maximum number of events" },
         { status: 400 }
       );
     }
@@ -63,6 +63,7 @@ export async function POST(req: Request) {
         date: new Date(date), // Ensure proper date format
         image: image || null, // Make image optional
         category, // Use session user ID
+        creatorId: session.user.id, // 🔥 THIS IS MISSING!
       },
     });
     revalidateTag(`events`);

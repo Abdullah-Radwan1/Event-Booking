@@ -64,7 +64,8 @@ const page = ({ lang }: { lang: string }) => {
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data);
+        toast.error(data.message);
+        return;
       }
       setTitle_ar("");
       setTitle_en("");
@@ -76,7 +77,7 @@ const page = ({ lang }: { lang: string }) => {
       toast.success(ar ? "تم إنشاء الحدث بنجاح" : "Event created successfully");
       router.push(`/events`);
     } catch (err: any) {
-      toast.error(err.error);
+      toast.error(err.message);
     } finally {
       setIsSubmitting(false);
     }
