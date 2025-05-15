@@ -9,8 +9,8 @@ const Not_Found = () => {
       <div className="w-16 h-1 bg-primary my-6"></div>
       <h2 className="text-3xl font-semibold mb-4">Page Not Found</h2>
       <p className="text-muted-foreground max-w-md mb-8">
-        Sorry, we couldn't find the page you're looking for. It might have been
-        moved, deleted, or never existed.
+        Sorry, we couldn&apos;t find the page you&apos;re looking for. It might
+        have been moved, deleted, or never existed.
       </p>
       <Link href="/">
         <Button size="lg" className="gap-2">

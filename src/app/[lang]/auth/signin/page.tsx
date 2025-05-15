@@ -27,7 +27,7 @@ const SignIn = () => {
         redirect: false, // Avoid page reload
         callbackUrl: "/", // Redirect to home page after sign-in
       });
-   
+
       setError(res?.error || "");
     } finally {
       setLoading(false);
@@ -97,7 +97,7 @@ const SignIn = () => {
           </form>
 
           <p className="text-center text-sm text-muted-foreground">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/auth/signup"
               className="font-medium text-red-600 hover:underline"

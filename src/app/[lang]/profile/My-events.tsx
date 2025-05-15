@@ -25,7 +25,7 @@ const My_events = async ({ lang }: { lang: string }) => {
   if (my_events.length === 0) {
     return (
       <div className="max-w-2xl mx-auto mt-10 text-center text-muted-foreground">
-        You haven't booked any events yet.
+        You haven&apos;t booked any events yet.
       </div>
     );
   }
