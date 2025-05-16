@@ -12,7 +12,7 @@ import { Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Event } from "@prisma/client";
+import { Event } from "../../../../prisma/src/generated/client";
 import { UpdateEvent } from "./actions";
 import { toast } from "sonner";
 
