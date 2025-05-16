@@ -4,7 +4,14 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 First, install packages : 
 npm install
-
+------------------------------------
+then add env fie in the root dir and add this vars with their values of your database 
+API_CLOUDINARY_KEY=#your_key
+API_CLOUDINARY_SECRET=#your_key
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=#your_key
+DATABASE_URL=#your_key
+NEXTAUTH_SECRET=#your_key
+-------------------------------------
 then run the development server:
 npm run dev
 # or
