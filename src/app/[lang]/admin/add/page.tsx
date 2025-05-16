@@ -22,7 +22,7 @@ enum Category {
   POLITICAL = "POLITICAL",
 }
 
-const Page = () => {
+const Add = () => {
   const { data: session } = useSession();
   const isAdmin = session?.user?.role === "ADMIN";
   const { lang } = useParams();
@@ -252,4 +252,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Add;

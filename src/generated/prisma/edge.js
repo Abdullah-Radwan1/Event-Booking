@@ -163,7 +163,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "F:\\Work\\Applications\\test\\src\\generated\\prisma",
+      "value": "F:\\Work\\projects\\areeb\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -177,7 +177,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "F:\\Work\\Applications\\test\\prisma\\schema.prisma",
+    "sourceFilePath": "F:\\Work\\projects\\areeb\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -195,12 +195,12 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://testdb_owner:npg_e3yprsURxH8O@ep-late-feather-a4lmemt8-pooler.us-east-1.aws.neon.tech/testdb?sslmode=require"
+        "value": "postgresql://postgres.jxipdwrbdcanqhdujixt:Badabeedo12@aws-0-us-east-1.pooler.supabase.com:6543/postgres"
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String    @id @default(uuid())\n  email    String    @unique\n  name     String?\n  password String\n  phone    String?\n  bookings Booking[] // Events this user is attending\n  role     Role      @default(USER)\n  events   Event[] // Events this user has created  creatorId String\n}\n\nmodel Event {\n  id             String    @id @default(cuid())\n  title_ar       String?\n  title_en       String?\n  description_ar String?\n  description_en String?\n  date           DateTime\n  image          String?\n  category       Category  @default(TECHNOLOGY)\n  price          Int       @default(80)\n  bookings       Booking[] // Bookings related to this event\n  creator        User?     @relation(fields: [creatorId], references: [id])\n  creatorId      String?\n}\n\nmodel Booking {\n  id        String   @id @default(cuid())\n  event     Event    @relation(fields: [eventId], references: [id])\n  eventId   String\n  user      User     @relation(fields: [userId], references: [id])\n  userId    String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([eventId, userId]) // Prevent duplicate bookings\n}\n\nenum Role {\n  USER\n  ADMIN\n}\n\nenum Category {\n  TECHNOLOGY\n  BUSINESS\n  POLITICAL\n}\n",
-  "inlineSchemaHash": "41a7756ede31fb9fb6e2cb60b4b0a41a47708c5802a211a77db7ae4fa0f5d27a",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECTURL\")\n}\n\nmodel User {\n  id       String    @id @default(uuid())\n  email    String    @unique\n  name     String?\n  password String\n  phone    String?\n  bookings Booking[] // Events this user is attending\n  role     Role      @default(USER)\n  events   Event[] // Events this user has created  creatorId String\n}\n\nmodel Event {\n  id             String    @id @default(cuid())\n  title_ar       String?\n  title_en       String?\n  description_ar String?\n  description_en String?\n  date           DateTime\n  image          String?\n  category       Category  @default(TECHNOLOGY)\n  price          Int       @default(80)\n  bookings       Booking[] // Bookings related to this event\n  creator        User?     @relation(fields: [creatorId], references: [id])\n  creatorId      String?\n}\n\nmodel Booking {\n  id        String   @id @default(cuid())\n  event     Event    @relation(fields: [eventId], references: [id])\n  eventId   String\n  user      User     @relation(fields: [userId], references: [id])\n  userId    String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([eventId, userId]) // Prevent duplicate bookings\n}\n\nenum Role {\n  USER\n  ADMIN\n}\n\nenum Category {\n  TECHNOLOGY\n  BUSINESS\n  POLITICAL\n}\n",
+  "inlineSchemaHash": "548e54ca892b2faf1d4fe95ec226cb39aaed2f8eac82604cbea893295828d498",
   "copyEngine": true
 }
 config.dirname = '/'

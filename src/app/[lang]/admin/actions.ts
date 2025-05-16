@@ -1,5 +1,5 @@
 "use server";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { db } from "../../../../prisma/db";
 import { getServerSession } from "next-auth";
 
@@ -9,7 +9,6 @@ async function DeleteEvent(id: string) {
     throw new Error("Not authenticated");
   }
   await db.event.delete({ where: { id } });
-  revalidateTag("events");
 }
 async function UpdateEvent(id: string, data: any, lang: string) {
   const session = await getServerSession(); // ✅ moved inside
@@ -18,6 +17,5 @@ async function UpdateEvent(id: string, data: any, lang: string) {
   }
   await db.event.update({ where: { id }, data });
   revalidatePath(`/${lang}/admin`); // Re-fresh data
-  revalidateTag("events");
 }
 export { DeleteEvent, UpdateEvent };

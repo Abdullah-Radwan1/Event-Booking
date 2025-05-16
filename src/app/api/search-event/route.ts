@@ -1,35 +1,29 @@
 import { NextResponse } from "next/server";
-import { unstable_cache } from "next/cache";
+
 import { db } from "../../../../prisma/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth-options";
 
-const getCachedEvents = unstable_cache(
-  async (skip: number, take: number, baseWhere: any) => {
-    const events = await db.event.findMany({
-      skip,
-      take,
-      where: baseWhere,
-      orderBy: {
-        date: "asc",
-      },
-    });
+const getCachedEvents = async (skip: number, take: number, baseWhere: any) => {
+  const events = await db.event.findMany({
+    skip,
+    take,
+    where: baseWhere,
+    orderBy: {
+      date: "asc",
+    },
+  });
 
-    const nextPageEvents = await db.event.findMany({
-      skip: skip + take,
-      take: 1,
-      where: baseWhere,
-    });
+  const nextPageEvents = await db.event.findMany({
+    skip: skip + take,
+    take: 1,
+    where: baseWhere,
+  });
 
-    const hasMore = nextPageEvents.length > 0;
+  const hasMore = nextPageEvents.length > 0;
 
-    return { events, hasMore };
-  },
-  ["events-cache"], // Cache key prefix
-  {
-    tags: ["events"], // Revalidation tags
-  }
-);
+  return { events, hasMore };
+};
 
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
