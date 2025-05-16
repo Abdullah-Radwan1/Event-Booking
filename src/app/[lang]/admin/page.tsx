@@ -14,10 +14,11 @@ import Delete from "./Delete";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const AdminPage = async ({ params }: { params: { lang: "en" | "ar" } }) => {
-  const { lang } = params;
+const AdminPage = async ({ params }: { params: Promise<{ lang: string }> }) => {
+  const { lang } = await params;
   const events = await db.event.findMany();
-  const translations = AdminTranslations[lang];
+  const ar = lang === "ar";
+  const translations = AdminTranslations[ar ? "ar" : "en"];
 
   return (
     <div

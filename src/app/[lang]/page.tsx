@@ -1,6 +1,5 @@
 import Banner from "@/components/banner";
 import Events from "@/components/Events";
-import Image from "next/image";
 
 export default async function Home({
   params,

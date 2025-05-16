@@ -54,8 +54,8 @@ export default function UserMenu({ session }: { session: any }) {
           <EllipsisVertical />
         </Button>
       </DropdownMenuTrigger>
-
-      <DropdownMenuContent forceMount dir={isArabic ? "rtl" : "ltr"}>
+      {/* to do dir={isArabic ? "rtl" : "ltr"} */}
+      <DropdownMenuContent forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">

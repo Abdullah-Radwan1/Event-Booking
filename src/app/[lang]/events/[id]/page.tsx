@@ -181,3 +181,16 @@ const EventPage = async ({
 };
 
 export default EventPage;
+
+export async function generateStaticParams() {
+  const events = await db.event.findMany({
+    select: { id: true },
+  });
+
+  // You can support both English and Arabic
+
+  return events.flatMap((event) => [
+    { id: event.id, lang: "en" },
+    { id: event.id, lang: "ar" },
+  ]);
+}

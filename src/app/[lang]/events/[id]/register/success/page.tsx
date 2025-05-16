@@ -59,7 +59,7 @@ const page = async ({
       </div>
 
       <div className="bg-accent p-6 rounded-md shadow-md w-full max-w-md ">
-        <h2 className="text-xl  bg-gradient-to-r from-blue-700 to-red-600 bg-clip-text text-transparent font-semibold mb-2 ">
+        <h2 className="text-xl p-1  bg-gradient-to-r from-blue-700 to-red-600 bg-clip-text text-transparent font-semibold mb-2 ">
           {isArabic ? event.title_ar : event.title_en}
         </h2>
         <p className="text-sm text-muted-foreground mb-1">

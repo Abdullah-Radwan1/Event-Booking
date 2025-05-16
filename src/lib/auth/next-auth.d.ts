@@ -1,6 +1,6 @@
 // types/next-auth.d.ts
-import NextAuth, { DefaultSession, DefaultUser } from "next-auth";
-import { UserRole } from "@/generated/prisma";
+import { DefaultSession, DefaultUser } from "next-auth";
+import { UserRole } from "../../../../prisma/src/generated/client";
 
 declare module "next-auth" {
   interface Session {

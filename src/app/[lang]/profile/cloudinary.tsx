@@ -13,7 +13,7 @@ export default function CloudinaryUpload({
   setImageUrl,
 }: {
   imageUrl: string;
-  setImageUrl: Function;
+  setImageUrl: (url: string) => void;
 }) {
   const [imageName, setImageName] = useState("");
   const handleImageChange = (result: CloudinaryUploadWidgetResults) => {

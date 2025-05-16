@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Event } from "@/generated/prisma";
+import { Event } from "../../../../prisma/src/generated/client";
 import { EventTranslations } from "../../../../translations/event";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -31,18 +31,6 @@ export default function EventsPage() {
   const translations = EventTranslations[lang];
   const [loading, setLoading] = useState(true);
 
-  const fetchEvents = async (overridePage = page) => {
-    setLoading(true);
-    const response = await fetch(
-      `/api/search-event?page=${overridePage}&search=${appliedSearch}&category=${appliedCategory}`
-    );
-    const data = await response.json();
-    setEvents(data.events);
-    setHasMore(data.hasMore);
-    setBookedEventIds(data.bookedEventIds);
-    setLoading(false);
-  };
-
   const handleSubmit = () => {
     setPage(1);
     setAppliedSearch(search);
@@ -54,6 +42,17 @@ export default function EventsPage() {
   };
 
   useEffect(() => {
+    const fetchEvents = async (overridePage = page) => {
+      setLoading(true);
+      const response = await fetch(
+        `/api/search-event?page=${overridePage}&search=${appliedSearch}&category=${appliedCategory}`
+      );
+      const data = await response.json();
+      setEvents(data.events);
+      setHasMore(data.hasMore);
+      setBookedEventIds(data.bookedEventIds);
+      setLoading(false);
+    };
     fetchEvents();
   }, [page, appliedSearch, appliedCategory]);
 
@@ -122,7 +121,7 @@ export default function EventsPage() {
           ))}
         </div>
       ) : events.length > 0 ? (
-        <div className="grid grid-cols-1 items-stretch justify-center items-center sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 items-stretch justify-center  sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
           {events.map((event) => (
             <EventCard
               bookedEventIds={bookedEventIds}

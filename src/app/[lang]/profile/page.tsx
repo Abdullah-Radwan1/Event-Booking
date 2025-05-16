@@ -17,7 +17,6 @@ const page = async ({ params }: { params: Promise<{ lang: string }> }) => {
     email?: string;
     role?: string;
   };
-  console.log(session);
 
   const profilePageTitle = lang === "ar" ? "الملف الشخصي" : "User Profile";
   const roleLabel = lang === "ar" ? "الدور" : "Role";
