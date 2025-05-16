@@ -13,7 +13,7 @@ export const eventRegisterTranslations = {
     linkProvided: "A link will be provided upon registration",
     attendees: "Attendees",
     registered: "Registered participants",
-    registerCardTitle: "Don&apos;t Miss Out!",
+    registerCardTitle: "Don't Miss Out!",
     registerCardText: "Secure your spot by registering now.",
     relatedEvents: "Related Events",
     viewAllEvents: "View All Events",

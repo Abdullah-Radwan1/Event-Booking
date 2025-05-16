@@ -4,6 +4,7 @@ import { Calendar, ArrowRight, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "./ui/badge";
 import { Event } from "../../prisma/src/generated/client";
+import { Button } from "./ui/button";
 interface EventCardProps extends Event {
   lang: string;
   bookedEventIds: string[] | null; // just the event IDs
@@ -71,14 +72,14 @@ const EventCard: React.FC<EventCardProps> = ({
 
         {/* Action Button */}
         <Link href={`/${lang}/events/${id}`}>
-          <button className="w-full mt-2 flex items-center justify-center py-2 px-4 rounded-md transition-colors duration-300 group border hover:bg-accent">
+          <Button className="w-full mt-2 flex items-center justify-center  group ">
             {translations.viewDetails}
             {isArabic ? (
               <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
             ) : (
               <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
             )}
-          </button>
+          </Button>
         </Link>
       </div>
     </div>
