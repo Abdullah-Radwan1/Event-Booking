@@ -5,7 +5,6 @@ import { authOptions } from "@/lib/auth/auth-options";
 import { getServerSession } from "next-auth";
 
 const Events = async ({ lang }: { lang: string }) => {
-  // const { lang } = await params;
   const ar = lang === "ar";
   const events = await db.event.findMany({ take: 4 });
   const session = await getServerSession(authOptions);

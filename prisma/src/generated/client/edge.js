@@ -163,11 +163,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-<<<<<<< HEAD:src/generated/prisma/edge.js
-      "value": "F:\\Work\\projects\\areeb\\src\\generated\\prisma",
-=======
-      "value": "F:\\Work\\projects\\areeb - Copy\\prisma\\src\\generated\\client",
->>>>>>> 2c54e6af8938510a746d5d50ea43de2329eb8e1d:prisma/src/generated/client/edge.js
+      "value": "F:\\Work\\projects\\areeb\\prisma\\src\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -181,15 +177,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-<<<<<<< HEAD:src/generated/prisma/edge.js
     "sourceFilePath": "F:\\Work\\projects\\areeb\\prisma\\schema.prisma",
-=======
-    "sourceFilePath": "F:\\Work\\projects\\areeb - Copy\\prisma\\schema.prisma",
->>>>>>> 2c54e6af8938510a746d5d50ea43de2329eb8e1d:prisma/src/generated/client/edge.js
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../../.env"
   },
   "relativePath": "../../..",
@@ -204,21 +196,12 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-<<<<<<< HEAD:src/generated/prisma/edge.js
-        "value": "postgresql://postgres.jxipdwrbdcanqhdujixt:Badabeedo12@aws-0-us-east-1.pooler.supabase.com:6543/postgres"
-      }
-    }
-  },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECTURL\")\n}\n\nmodel User {\n  id       String    @id @default(uuid())\n  email    String    @unique\n  name     String?\n  password String\n  phone    String?\n  bookings Booking[] // Events this user is attending\n  role     Role      @default(USER)\n  events   Event[] // Events this user has created  creatorId String\n}\n\nmodel Event {\n  id             String    @id @default(cuid())\n  title_ar       String?\n  title_en       String?\n  description_ar String?\n  description_en String?\n  date           DateTime\n  image          String?\n  category       Category  @default(TECHNOLOGY)\n  price          Int       @default(80)\n  bookings       Booking[] // Bookings related to this event\n  creator        User?     @relation(fields: [creatorId], references: [id])\n  creatorId      String?\n}\n\nmodel Booking {\n  id        String   @id @default(cuid())\n  event     Event    @relation(fields: [eventId], references: [id])\n  eventId   String\n  user      User     @relation(fields: [userId], references: [id])\n  userId    String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([eventId, userId]) // Prevent duplicate bookings\n}\n\nenum Role {\n  USER\n  ADMIN\n}\n\nenum Category {\n  TECHNOLOGY\n  BUSINESS\n  POLITICAL\n}\n",
-  "inlineSchemaHash": "548e54ca892b2faf1d4fe95ec226cb39aaed2f8eac82604cbea893295828d498",
-=======
         "value": null
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./src/generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String    @id @default(uuid())\n  email    String    @unique\n  name     String?\n  password String\n  phone    String?\n  bookings Booking[] // Events this user is attending\n  role     Role      @default(USER)\n  events   Event[] // Events this user has created  creatorId String\n}\n\nmodel Event {\n  id             String    @id @default(cuid())\n  title_ar       String?\n  title_en       String?\n  description_ar String?\n  description_en String?\n  date           DateTime\n  image          String?\n  category       Category  @default(TECHNOLOGY)\n  price          Int       @default(80)\n  bookings       Booking[] // Bookings related to this event\n  creator        User?     @relation(fields: [creatorId], references: [id])\n  creatorId      String?\n}\n\nmodel Booking {\n  id        String   @id @default(cuid())\n  event     Event    @relation(fields: [eventId], references: [id])\n  eventId   String\n  user      User     @relation(fields: [userId], references: [id])\n  userId    String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([eventId, userId]) // Prevent duplicate bookings\n}\n\nenum Role {\n  USER\n  ADMIN\n}\n\nenum Category {\n  TECHNOLOGY\n  BUSINESS\n  POLITICAL\n}\n",
-  "inlineSchemaHash": "75c3136cd31e6c0ae843321d8d52085551d3f23f7e75e08e4dfed6110f5ddfcc",
->>>>>>> 2c54e6af8938510a746d5d50ea43de2329eb8e1d:prisma/src/generated/client/edge.js
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./src/generated/client\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECTURL\")\n}\n\nmodel User {\n  id       String    @id @default(uuid())\n  email    String    @unique\n  name     String?\n  password String\n  phone    String?\n  bookings Booking[] // Events this user is attending\n  role     Role      @default(USER)\n  events   Event[] // Events this user has created\n}\n\nmodel Event {\n  id             String    @id @default(cuid())\n  title_ar       String?\n  title_en       String?\n  description_ar String?\n  description_en String?\n  date           DateTime\n  image          String?\n  category       Category  @default(TECHNOLOGY)\n  price          Int       @default(80)\n  bookings       Booking[]\n  creator        User?     @relation(fields: [creatorId], references: [id])\n  creatorId      String?\n}\n\nmodel Booking {\n  id        String   @id @default(cuid())\n  event     Event    @relation(fields: [eventId], references: [id])\n  eventId   String\n  user      User     @relation(fields: [userId], references: [id])\n  userId    String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([eventId, userId])\n}\n\nenum Role {\n  USER\n  ADMIN\n}\n\nenum Category {\n  TECHNOLOGY\n  BUSINESS\n  POLITICAL\n}\n",
+  "inlineSchemaHash": "527097bc8f5ccf22b07620a611c421b8699485897aee2c405c6c07e2e252ff63",
   "copyEngine": true
 }
 config.dirname = '/'

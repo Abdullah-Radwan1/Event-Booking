@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../../css/bounce.css";
 import { signIn } from "next-auth/react";
-import { Role } from "../../../../../prisma/src/generated/client";
+import { Role } from "@prisma/client";
 import {
   Select,
   SelectContent,
