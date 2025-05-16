@@ -20,4 +20,4 @@ async function UpdateEvent(id: string, data: any, lang: string) {
 }
 export { DeleteEvent, UpdateEvent };
 
-//removing the event from the database
+//removing the event
