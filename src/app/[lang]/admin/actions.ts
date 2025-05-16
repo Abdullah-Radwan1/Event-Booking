@@ -19,3 +19,5 @@ async function UpdateEvent(id: string, data: any, lang: string) {
   revalidatePath(`/${lang}/admin`); // Re-fresh data
 }
 export { DeleteEvent, UpdateEvent };
+
+//removing the event from the database
