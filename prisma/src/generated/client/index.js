@@ -164,7 +164,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "F:\\Work\\projects\\areeb\\prisma\\src\\generated\\client",
+      "value": "F:\\Work\\projects\\meetup\\prisma\\src\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -178,7 +178,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "F:\\Work\\projects\\areeb\\prisma\\schema.prisma",
+    "sourceFilePath": "F:\\Work\\projects\\meetup\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

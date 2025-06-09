@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/lib/theme-toggle";
 import UserMenu from "./User-menu";
 import { LanguageToggle } from "@/lib/LanguageToggle";
+import { Suspense } from "react";
 
 export default function Header() {
   return (
@@ -19,7 +20,9 @@ export default function Header() {
       <section className="flex items-center justify-between gap-4">
         <UserMenu /> {/* No need to pass session */}
         <ThemeToggle />
-        <LanguageToggle />
+        <Suspense fallback={null}>
+          <LanguageToggle />
+        </Suspense>
       </section>
     </nav>
   );
