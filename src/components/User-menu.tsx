@@ -24,12 +24,14 @@ import SignOut from "@/lib/auth/SignoutButton";
 import Link from "next/link";
 import { EllipsisVertical } from "lucide-react";
 import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-export default function UserMenu({ session }: { session: any }) {
+export default function UserMenu() {
   const { lang } = useParams();
   const isArabic = lang === "ar";
+  const session = useSession();
 
-  if (!session) {
+  if (session.status === "unauthenticated") {
     return (
       <Link href={`/${lang}/auth/signin`}>
         <Button>{isArabic ? "تسجيل الدخول" : "Sign in"}</Button>
@@ -37,7 +39,7 @@ export default function UserMenu({ session }: { session: any }) {
     );
   }
 
-  const isAdmin = session?.user?.role === "ADMIN";
+  const isAdmin = session?.data?.user?.role === "ADMIN";
 
   return (
     <DropdownMenu>
@@ -49,8 +51,8 @@ export default function UserMenu({ session }: { session: any }) {
           }`}
         >
           {isArabic
-            ? `أهلاً ${session.user?.name}`
-            : `Hi ${session.user?.name}`}
+            ? `أهلاً ${session.data?.user?.name}`
+            : `Hi ${session.data?.user?.name}`}
           <EllipsisVertical />
         </Button>
       </DropdownMenuTrigger>
@@ -59,10 +61,11 @@ export default function UserMenu({ session }: { session: any }) {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {session.user?.name} ({session.user?.role.toLowerCase()})
+              {session.data?.user?.name} (
+              {session.data?.user?.role.toLowerCase()})
             </p>
             <p className="text-xs leading-none text-muted-foreground">
-              {session.user?.email}
+              {session.data?.user?.email}
             </p>
           </div>
         </DropdownMenuLabel>

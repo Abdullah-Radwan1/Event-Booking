@@ -1,16 +1,12 @@
 // app/components/header.tsx
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth/auth-options";
 import Image from "next/image";
 import Link from "next/link";
 
 import { ThemeToggle } from "@/lib/theme-toggle";
-import UserMenu from "./User-menu"; // Your new client component
+import UserMenu from "./User-menu";
 import { LanguageToggle } from "@/lib/LanguageToggle";
 
-export default async function Header() {
-  const session = await getServerSession(authOptions);
-
+export default function Header() {
   return (
     <nav className="flex border-b shadow-sm items-center justify-around flex-wrap gap-y-3 py-2 px-6">
       <Link href="/">
@@ -21,7 +17,7 @@ export default async function Header() {
       </Link>
 
       <section className="flex items-center justify-between gap-4">
-        <UserMenu session={session} /> {/* Pass session as prop */}
+        <UserMenu /> {/* No need to pass session */}
         <ThemeToggle />
         <LanguageToggle />
       </section>
