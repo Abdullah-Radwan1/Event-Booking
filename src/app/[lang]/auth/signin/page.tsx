@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { Mail, Lock, LogIn } from "lucide-react";
@@ -7,13 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../../css/bounce.css";
 import { signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const ar = useParams().lang === "ar";
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -23,31 +25,48 @@ const SignIn = () => {
     try {
       const res = await signIn("credentials", {
         email,
-        password, // Hash password before sending
-        redirect: false, // Avoid page reload
-        callbackUrl: "/", // Redirect to home page after sign-in
+        password,
+        redirect: false,
+        callbackUrl: "/",
       });
 
       setError(res?.error || "");
+      const targetPath = ar ? "/ar" : "/";
+      redirect(targetPath);
     } finally {
       setLoading(false);
-      redirect("/");
     }
   };
 
   return (
     <>
       <Head>
-        <title>Sign In | Alreeb</title>
-        <meta name="description" content="Sign in to your Alreeb account" />
+        <title>{ar ? "تسجيل الدخول | الريّب" : "Sign In | Alreeb"}</title>
+        <meta
+          name="description"
+          content={
+            ar
+              ? "سجّل الدخول إلى حسابك في الريّب"
+              : "Sign in to your Alreeb account"
+          }
+        />
       </Head>
 
-      <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 animate-slideLeft">
+      <div
+        className={`flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 animate-slideLeft ${
+          ar ? "direction-rtl text-right" : ""
+        }`}
+        dir={ar ? "rtl" : "ltr"}
+      >
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <h2 className="text-3xl font-extrabold">Welcome back</h2>
+            <h2 className="text-3xl font-extrabold">
+              {ar ? "مرحبًا بعودتك" : "Welcome back"}
+            </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Sign in to your account to continue
+              {ar
+                ? "سجّل الدخول إلى حسابك للمتابعة"
+                : "Sign in to your account to continue"}
             </p>
           </div>
 
@@ -60,7 +79,11 @@ const SignIn = () => {
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div
+                  className={`absolute inset-y-0 ${
+                    ar ? "right-0 pr-3" : "left-0 pl-3"
+                  } flex items-center pointer-events-none`}
+                >
                   <Mail className="h-5 w-5" />
                 </div>
                 <Input
@@ -69,13 +92,19 @@ const SignIn = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10"
-                  placeholder="ex: abdullah@gmail.com"
+                  className={ar ? "pr-10 text-right" : "pl-10"}
+                  placeholder={
+                    ar ? "مثال: abdullah@gmail.com" : "ex: abdullah@gmail.com"
+                  }
                 />
               </div>
 
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div
+                  className={`absolute inset-y-0 ${
+                    ar ? "right-0 pr-3" : "left-0 pl-3"
+                  } flex items-center pointer-events-none`}
+                >
                   <Lock className="h-5 w-5" />
                 </div>
                 <Input
@@ -84,25 +113,31 @@ const SignIn = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10"
-                  placeholder="Password"
+                  className={ar ? "pr-10 text-right" : "pl-10"}
+                  placeholder={ar ? "كلمة المرور" : "Password"}
                 />
               </div>
             </div>
 
             <Button type="submit" disabled={loading} className="w-full">
-              <LogIn className="mr-2 h-5 w-5" />
-              {loading ? "Signing in..." : "Sign in"}
+              <LogIn className={`h-5 w-5 ${ar ? "ml-2" : "mr-2"}`} />
+              {loading
+                ? ar
+                  ? "جارٍ تسجيل الدخول..."
+                  : "Signing in..."
+                : ar
+                ? "تسجيل الدخول"
+                : "Sign in"}
             </Button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            {ar ? "ليس لديك حساب؟" : "Don't have an account?"}{" "}
             <Link
-              href="/auth/signup"
+              href={ar ? "/ar/auth/signup" : "/auth/signup"}
               className="font-medium text-red-600 hover:underline"
             >
-              Sign up
+              {ar ? "إنشاء حساب" : "Sign up"}
             </Link>
           </p>
 
@@ -112,7 +147,7 @@ const SignIn = () => {
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-2 bg-background text-muted-foreground">
-                Or continue with
+                {ar ? "أو تابع باستخدام" : "Or continue with"}
               </span>
             </div>
           </div>
@@ -121,7 +156,9 @@ const SignIn = () => {
             <Button variant="outline" className="w-full">
               GitHub
             </Button>
-            <p className="text-gray-500 text-center">coming soon</p>
+            <p className="text-gray-500 text-center my-2">
+              {ar ? "قريباً" : "coming soon"}
+            </p>
           </div>
         </div>
       </div>
