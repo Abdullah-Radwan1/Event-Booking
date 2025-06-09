@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { toast } from "sonner";
 
 const SignUp = () => {
@@ -53,7 +53,7 @@ const SignUp = () => {
       ? "فشل في إنشاء الحساب. حاول مرة أخرى."
       : "Failed to create account. Please try again.",
   };
-  const router = useRouter();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -91,7 +91,8 @@ const SignUp = () => {
       setError(res?.error || "");
 
       const targetPath = ar ? "/ar" : "/";
-      router.push(targetPath); // ✅ await here
+
+      redirect(targetPath);
     } catch {
       setError(t.signUpFailed);
     } finally {
