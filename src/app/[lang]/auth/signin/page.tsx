@@ -8,15 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../../css/bounce.css";
 import { signIn } from "next-auth/react";
-import { redirect, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
   const ar = useParams().lang === "ar";
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -32,7 +33,7 @@ const SignIn = () => {
 
       setError(res?.error || "");
       const targetPath = ar ? "/ar" : "/";
-      redirect(targetPath);
+      router.push(targetPath);
     } finally {
       setLoading(false);
     }

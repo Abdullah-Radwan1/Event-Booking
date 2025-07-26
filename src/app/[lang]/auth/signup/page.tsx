@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { redirect, useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const SignUp = () => {
@@ -61,7 +61,7 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [role, setRule] = useState<Role>("USER");
-
+  const router = useRouter();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -92,7 +92,7 @@ const SignUp = () => {
 
       const targetPath = ar ? "/ar" : "/";
 
-      redirect(targetPath);
+      router.push(targetPath);
     } catch {
       setError(t.signUpFailed);
     } finally {

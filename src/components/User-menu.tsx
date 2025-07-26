@@ -22,7 +22,7 @@ import {
 } from "./ui/alert-dialog";
 import SignOut from "@/lib/auth/SignoutButton";
 import Link from "next/link";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, Loader, Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
@@ -30,7 +30,6 @@ export default function UserMenu() {
   const { lang } = useParams();
   const isArabic = lang === "ar";
   const session = useSession();
-
   if (session.status === "unauthenticated") {
     return (
       <Link href={`/${lang}/auth/signin`}>
@@ -50,9 +49,13 @@ export default function UserMenu() {
             isArabic ? "text-right" : "text-left"
           }`}
         >
-          {isArabic
-            ? `أهلاً ${session.data?.user?.name}`
-            : `Hi ${session.data?.user?.name}`}
+          {isArabic ? (
+            `أهلاً ${session.data?.user?.name}`
+          ) : session.data?.user.name ? (
+            `Hello ${session.data?.user.name} `
+          ) : (
+            <Loader2 className="animate-spin" />
+          )}
           <EllipsisVertical />
         </Button>
       </DropdownMenuTrigger>
