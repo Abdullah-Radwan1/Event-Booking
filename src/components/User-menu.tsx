@@ -22,7 +22,7 @@ import {
 } from "./ui/alert-dialog";
 import SignOut from "@/lib/auth/SignoutButton";
 import Link from "next/link";
-import { EllipsisVertical, Loader, Loader2 } from "lucide-react";
+import { EllipsisVertical, Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
