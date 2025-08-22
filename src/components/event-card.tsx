@@ -35,26 +35,26 @@ const EventCard: React.FC<EventCardProps> = ({
   return (
     <div className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300  border-2 ">
       {/* Event Image */}
-      <div className="relative    w-full">
+      <div className="relative w-full aspect-video">
         {bookedEventIds?.includes(id) && (
           <Badge variant="destructive" className="absolute top-2 right-2">
             Booked
           </Badge>
         )}
         <Image
-          src={image || "technical-event.jpg"}
-          width={300}
-          height={300}
-          alt={image || "Event Image"}
-          className="object-cover w-full "
+          src={image || "/technical-event.jpg"}
+          alt={title}
+          fill
+          className="object-center rounded-t-lg"
+          priority={false}
         />
       </div>
 
       {/* Event Content */}
-      <div className="p-5">
+      <div className="p-5 flex flex-col justify-end">
         <h3 className="text-xl font-bold mb-2 line-clamp-1">{title}</h3>
 
-        <p className="text-sm mb-4 w-[90%] ">{description}</p>
+        <p className="text-sm mb-4  line-clamp-2 ">{description}</p>
 
         <section className="flex items-center justify-between mb-4">
           <div className="flex items-center text-sm  gap-2 text-muted-foreground">

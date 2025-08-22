@@ -49,7 +49,7 @@ export default function UserMenu() {
             isArabic ? "text-right" : "text-left"
           }`}
         >
-          {isArabic ? (
+          {session.data?.user.name && isArabic ? (
             `أهلاً ${session.data?.user?.name}`
           ) : session.data?.user.name ? (
             `Hello ${session.data?.user.name} `

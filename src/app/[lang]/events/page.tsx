@@ -111,7 +111,7 @@ export default function EventsPage() {
 
       {/* Event List */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
           {[...Array(4)].map((_, index) => (
             <div key={index} className="rounded-lg p-4">
               <Skeleton className="h-48 w-full rounded-lg mb-4" />
@@ -121,7 +121,7 @@ export default function EventsPage() {
           ))}
         </div>
       ) : events.length > 0 ? (
-        <div className="grid grid-cols-1 items-stretch justify-center  sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5 items-stretch">
           {events.map((event) => (
             <EventCard
               bookedEventIds={bookedEventIds}
