@@ -33,9 +33,9 @@ const EventCard: React.FC<EventCardProps> = ({
   const locale = lang === "ar" ? "ar-EG" : "en-US";
 
   return (
-    <div className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 border-2 ">
+    <div className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300  border-2 ">
       {/* Event Image */}
-      <div className="relative   w-full">
+      <div className="relative    w-full">
         {bookedEventIds?.includes(id) && (
           <Badge variant="destructive" className="absolute top-2 right-2">
             Booked
@@ -43,10 +43,10 @@ const EventCard: React.FC<EventCardProps> = ({
         )}
         <Image
           src={image || "technical-event.jpg"}
-          width={500}
-          height={500}
+          width={300}
+          height={300}
           alt={image || "Event Image"}
-          className="object-cover w-full h-64"
+          className="object-cover w-full "
         />
       </div>
 
@@ -54,7 +54,7 @@ const EventCard: React.FC<EventCardProps> = ({
       <div className="p-5">
         <h3 className="text-xl font-bold mb-2 line-clamp-1">{title}</h3>
 
-        <p className="text-sm mb-4 line-clamp-2">{description}</p>
+        <p className="text-sm mb-4 w-[90%] ">{description}</p>
 
         <section className="flex items-center justify-between mb-4">
           <div className="flex items-center text-sm  gap-2 text-muted-foreground">

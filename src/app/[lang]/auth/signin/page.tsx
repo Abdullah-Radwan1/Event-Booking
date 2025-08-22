@@ -42,13 +42,11 @@ const SignIn = () => {
   return (
     <>
       <Head>
-        <title>{ar ? "تسجيل الدخول | الريّب" : "Sign In | Alreeb"}</title>
+        <title>{ar ? "تسجيل الدخول " : "Sign In "}</title>
         <meta
           name="description"
           content={
-            ar
-              ? "سجّل الدخول إلى حسابك في الريّب"
-              : "Sign in to your Alreeb account"
+            ar ? "سجّل الدخول إلى حسابك في الريّب" : "Sign in to your account"
           }
         />
       </Head>

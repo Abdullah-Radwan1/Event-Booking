@@ -66,7 +66,7 @@ const EventPage = async ({
 
       {/* Image */}
       {event.image && (
-        <div className="relative h-96 mb-10 rounded-2xl overflow-hidden shadow-lg">
+        <div className="relative h-[55vh] mb-10 rounded-2xl overflow-hidden shadow-lg">
           <Image
             src={event.image}
             alt="event image"

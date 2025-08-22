@@ -25,7 +25,7 @@ const SignUp = () => {
   const ar = lang === "ar";
 
   const t = {
-    title: ar ? "إنشاء حساب | الريّب" : "Sign Up | Alreeb",
+    title: ar ? "إنشاء حساب " : "Sign Up ",
     heading: ar ? "أنشئ حسابك" : "Create your account",
     subheading: ar
       ? "انضم إلى مجتمعنا واكتشف فعاليات رائعة"

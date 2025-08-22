@@ -80,7 +80,7 @@ const Footer = ({ lang }: { lang: string }) => {
   ];
 
   const contactInfo = [
-    { text: "contact@alreeb.com", icon: Mail },
+    { text: "abdallahbeedo5584@gmail.com", icon: Mail },
     { text: "+1 (555) 123-4567", icon: Phone },
     { text: "123 Event Street, City", icon: MapPin },
   ];
@@ -111,7 +111,7 @@ const Footer = ({ lang }: { lang: string }) => {
               <Heart
                 className={`h-5 w-5 ${isArabic ? "mx-2" : "mr-2"} text-red-500`}
               />
-              Alreeb
+              Abdullah Radwan
             </h3>
             <p className="mt-3 text-sm text-muted-foreground">{t("company")}</p>
             <div className="mt-4 flex space-x-4 ">
