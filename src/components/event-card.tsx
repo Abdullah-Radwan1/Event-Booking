@@ -43,7 +43,7 @@ const EventCard: React.FC<EventCardProps> = ({
         )}
         <Image
           src={image || "/technical-event.jpg"}
-          alt={title}
+          alt={title || "technical-event.jpg"}
           fill
           className="object-center rounded-t-lg"
           priority={false}
