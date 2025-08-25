@@ -1,0 +1,32 @@
+name: Learn GitHub Actions # Name of your workflow
+
+on: [push] # Trigger on any push event
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: ENV examble
+        env:
+          GLOBAL_VAR: "Hello from Workflow"
+        run: echo "The variable is $GLOBAL_VAR"
+
+      - name: Run build script
+        run: |
+          echo "Simulating build..."
+          mkdir dist
+          echo "Hello from build!" > dist/index.txt
+
+      - name: Create zip folder
+        run: |
+          mkdir zip
+          zip -r zip/build-output.zip dist/
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: zip/build-output.zip
