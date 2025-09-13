@@ -7,7 +7,7 @@ import Head from "next/head";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../../css/bounce.css";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -28,10 +28,10 @@ const SignIn = () => {
         email,
         password,
         redirect: false,
-        callbackUrl: "/",
       });
 
       setError(res?.error || "");
+      await getSession(); // ensures the session cookie is set
       const targetPath = ar ? "/ar" : "/";
       router.push(targetPath);
     } finally {

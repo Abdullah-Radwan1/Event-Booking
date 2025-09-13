@@ -7,7 +7,7 @@ import Head from "next/head";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../../css/bounce.css";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { Role } from "../../../../../prisma/src/generated/client";
 import {
   Select,
@@ -81,7 +81,6 @@ const SignUp = () => {
         redirect: false,
         role,
         isSignUp: "true",
-        callbackUrl: "/",
       });
 
       toast.success(
@@ -90,8 +89,8 @@ const SignUp = () => {
 
       setError(res?.error || "");
 
+      await getSession(); // ensures the session cookie is set
       const targetPath = ar ? "/ar" : "/";
-
       router.push(targetPath);
     } catch {
       setError(t.signUpFailed);
