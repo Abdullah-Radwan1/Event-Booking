@@ -32,10 +32,14 @@ const SignIn = () => {
 
       setError(res?.error || "");
       await getSession(); // ensures the session cookie is set
-      const targetPath = ar ? "/ar" : "/";
-      router.push(targetPath);
     } finally {
       setLoading(false);
+      const session = await getSession(); // ensures the session cookie is set
+
+      setLoading(false);
+      if (session?.user) {
+        router.push(ar ? "/ar" : "/");
+      }
     }
   };
 

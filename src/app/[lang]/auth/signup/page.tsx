@@ -88,14 +88,15 @@ const SignUp = () => {
       );
 
       setError(res?.error || "");
-
-      await getSession(); // ensures the session cookie is set
-      const targetPath = ar ? "/ar" : "/";
-      router.push(targetPath);
     } catch {
       setError(t.signUpFailed);
     } finally {
+      const session = await getSession(); // ensures the session cookie is set
+
       setLoading(false);
+      if (session?.user) {
+        router.push(ar ? "/ar" : "/");
+      }
     }
   };
 
