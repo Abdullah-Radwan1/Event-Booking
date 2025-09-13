@@ -7,9 +7,8 @@ import Head from "next/head";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../../css/bounce.css";
-import { getSession, signIn } from "next-auth/react";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { signIn, getSession } from "next-auth/react";
+import { useParams, useRouter } from "next/navigation";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -18,45 +17,68 @@ const SignIn = () => {
   const [error, setError] = useState("");
   const router = useRouter();
   const ar = useParams().lang === "ar";
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
+      // Sign in without redirect
       const res = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
 
-      setError(res?.error || "");
-      await getSession(); // ensures the session cookie is set
+      if (res?.error) {
+        setError(res.error);
+        return;
+      }
+
+      // Wait until the session is available
+      let attempts = 0;
+      const maxAttempts = 10;
+      let session = null;
+
+      while (attempts < maxAttempts) {
+        session = await getSession();
+        if (session?.user) break;
+        await new Promise((r) => setTimeout(r, 200)); // wait 200ms
+        attempts++;
+      }
+
+      if (!session?.user) {
+        setError(
+          ar ? "فشل تسجيل الدخول. حاول مرة أخرى." : "Sign in failed. Try again."
+        );
+        return;
+      }
+
+      // Redirect once session is confirmed
+      router.push(ar ? "/ar" : "/");
+    } catch (err) {
+      console.error(err);
+      setError(
+        ar ? "حدث خطأ. حاول مرة أخرى." : "Something went wrong. Try again."
+      );
     } finally {
       setLoading(false);
-      const session = await getSession(); // ensures the session cookie is set
-
-      setLoading(false);
-      if (session?.user) {
-        router.push(ar ? "/ar" : "/");
-      }
     }
   };
 
   return (
     <>
       <Head>
-        <title>{ar ? "تسجيل الدخول " : "Sign In "}</title>
+        <title>{ar ? "تسجيل الدخول" : "Sign In"}</title>
         <meta
           name="description"
-          content={
-            ar ? "سجّل الدخول إلى حسابك في الريّب" : "Sign in to your account"
-          }
+          content={ar ? "سجّل الدخول إلى حسابك" : "Sign in to your account"}
         />
       </Head>
 
       <div
-        className={`flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 animate-slideLeft ${
+        className={`flex items-center justify-center px-4 py-12 animate-slideLeft ${
           ar ? "direction-rtl text-right" : ""
         }`}
         dir={ar ? "rtl" : "ltr"}
@@ -143,26 +165,6 @@ const SignIn = () => {
               {ar ? "إنشاء حساب" : "Sign up"}
             </Link>
           </p>
-
-          <div className="relative mt-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-background text-muted-foreground">
-                {ar ? "أو تابع باستخدام" : "Or continue with"}
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <Button variant="outline" className="w-full">
-              GitHub
-            </Button>
-            <p className="text-gray-500 text-center my-2">
-              {ar ? "قريباً" : "coming soon"}
-            </p>
-          </div>
         </div>
       </div>
     </>
