@@ -12,7 +12,7 @@
 
 # testing
 /coverage
-
+/prisma/src/generated/client/
 # next.js
 /.next/
 /out/
