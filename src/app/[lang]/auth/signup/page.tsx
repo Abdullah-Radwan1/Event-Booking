@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { setCookie } from "cookies-next";
 
@@ -62,7 +62,7 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [role, setRule] = useState<Role>("USER");
-  const router = useRouter();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -89,8 +89,7 @@ const SignUp = () => {
       );
       if (res?.ok) {
         setCookie("authenticated", "true", { maxAge: 60 * 60 * 24 }); // يوم كامل
-
-        router.push(ar ? "/ar" : "/");
+        window.location.href = ar ? "/ar" : "/";
       }
       setError(res?.error || "");
     } catch {

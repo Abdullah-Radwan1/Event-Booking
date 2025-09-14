@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../../css/bounce.css";
 import { signIn } from "next-auth/react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { setCookie } from "cookies-next"; // تحتاج تثبتها: npm i cookies-next
 
 const SignIn = () => {
@@ -16,7 +16,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter();
+
   const ar = useParams().lang === "ar";
 
   const handleSubmit = async (e: FormEvent) => {
@@ -36,11 +36,8 @@ const SignIn = () => {
         return;
       }
 
-      // ✅ هنا أضيف Cookie لما يتأكد إنه Authenticated
-      setCookie("authenticated", "true", { maxAge: 60 * 60 * 24 }); // يوم كامل
-
-      // Redirect
-      router.push(ar ? "/ar" : "/");
+      // ✅ full redirect so middleware runs immediately
+      window.location.href = ar ? "/ar" : "/";
     } catch (err) {
       console.error(err);
       setError(
