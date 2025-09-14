@@ -7,8 +7,9 @@ import Head from "next/head";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../../css/bounce.css";
-import { signIn, getSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
+import { setCookie } from "cookies-next"; // تحتاج تثبتها: npm i cookies-next
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -24,7 +25,6 @@ const SignIn = () => {
     setError("");
 
     try {
-      // Sign in without redirect
       const res = await signIn("credentials", {
         email,
         password,
@@ -36,26 +36,10 @@ const SignIn = () => {
         return;
       }
 
-      // Wait until the session is available
-      let attempts = 0;
-      const maxAttempts = 10;
-      let session = null;
+      // ✅ هنا أضيف Cookie لما يتأكد إنه Authenticated
+      setCookie("authenticated", "true", { maxAge: 60 * 60 * 24 }); // يوم كامل
 
-      while (attempts < maxAttempts) {
-        session = await getSession();
-        if (session?.user) break;
-        await new Promise((r) => setTimeout(r, 200)); // wait 200ms
-        attempts++;
-      }
-
-      if (!session?.user) {
-        setError(
-          ar ? "فشل تسجيل الدخول. حاول مرة أخرى." : "Sign in failed. Try again."
-        );
-        return;
-      }
-
-      // Redirect once session is confirmed
+      // Redirect
       router.push(ar ? "/ar" : "/");
     } catch (err) {
       console.error(err);

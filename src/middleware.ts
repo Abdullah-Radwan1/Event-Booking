@@ -14,13 +14,8 @@ const publicPaths = ["/auth/signin", "/auth/signup", "/signin", "/signup"];
  * Get the user's preferred locale based on Accept-Language header
  */
 function getPreferredLocale(request: NextRequest) {
-  // Convert request headers to an object Negotiator can use
   const negotiatorHeaders = Object.fromEntries(request.headers.entries());
-
-  // Parse the accepted languages from the request
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages();
-
-  // Match the best locale based on supported ones
   return match(languages, locales, defaultLocale);
 }
 
@@ -28,7 +23,7 @@ function getPreferredLocale(request: NextRequest) {
  * Check if the path is publicly accessible
  */
 function isPathPublic(path: string) {
-  return publicPaths.includes(path);
+  return publicPaths.some((p) => path.startsWith(p));
 }
 
 export async function middleware(request: NextRequest) {
@@ -52,34 +47,36 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Get the user's session (if logged in)
-  const session = await getToken({
-    req: request,
-    secret: process.env.NEXTAUTH_SECRET,
-  });
-
-  // Check if the requested path is publicly accessible
-  const isPublic = isPathPublic(strippedPath);
+  // ✅ Check cookie for authentication
+  const isAuthenticated =
+    request.cookies.get("authenticated")?.value === "true";
 
   // 🔒 User is NOT authenticated and trying to access a protected route
-  if (!session && !isPublic) {
+  if (!isAuthenticated && !isPathPublic(strippedPath)) {
     const url = request.nextUrl.clone();
     url.pathname = `/${localePrefix}/auth/signin`;
     return NextResponse.redirect(url);
   }
 
   // 🔓 User is authenticated and trying to access a public page (like signin/signup)
-  if (session && isPublic) {
+  if (isAuthenticated && isPathPublic(strippedPath)) {
     const url = request.nextUrl.clone();
     url.pathname = `/${localePrefix}/`;
     return NextResponse.redirect(url);
   }
 
-  // 👮‍♂️ Role-based access control: "USER" cannot access "/admin" routes
-  if (session?.role === "USER" && strippedPath.startsWith("/admin")) {
-    const url = request.nextUrl.clone();
-    url.pathname = `/${localePrefix}/`;
-    return NextResponse.redirect(url);
+  // 👮 Role-based access control
+  if (isAuthenticated && strippedPath.startsWith("/admin")) {
+    const session = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    if (session?.role === "USER") {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${localePrefix}/`;
+      return NextResponse.redirect(url);
+    }
   }
 
   // ✅ All good — allow the request to proceed
