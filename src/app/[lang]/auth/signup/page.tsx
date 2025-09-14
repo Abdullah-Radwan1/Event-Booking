@@ -7,7 +7,7 @@ import Head from "next/head";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import "../../../../css/bounce.css";
-import { getSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { Role } from "../../../../../prisma/src/generated/client";
 import {
   Select,
