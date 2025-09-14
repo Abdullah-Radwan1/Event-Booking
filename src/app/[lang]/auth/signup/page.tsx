@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/select";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
-import { setCookie } from "cookies-next";
 
 const SignUp = () => {
   const { lang } = useParams();
@@ -88,7 +87,6 @@ const SignUp = () => {
         ar ? "تم إنشاء الحساب بنجاح" : "Account created successfully"
       );
       if (res?.ok) {
-        setCookie("authenticated", "true", { maxAge: 60 * 60 * 24 }); // يوم كامل
         window.location.href = ar ? "/ar" : "/";
       }
       setError(res?.error || "");

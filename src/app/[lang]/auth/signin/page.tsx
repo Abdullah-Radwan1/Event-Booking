@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import "../../../../css/bounce.css";
 import { signIn } from "next-auth/react";
 import { useParams } from "next/navigation";
-import { setCookie } from "cookies-next"; // تحتاج تثبتها: npm i cookies-next
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
